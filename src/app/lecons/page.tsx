@@ -53,7 +53,7 @@ export default function LeconsPage() {
         <div className="text-center py-16">
           <BookOpen className="h-12 w-12 text-gray-300 mx-auto mb-4" />
           <h3 className="text-lg font-medium text-gray-900 mb-2">Aucune leçon</h3>
-          <p className="text-gray-600 mb-6">Générez votre première leçon avec l&apos;IA.</p>
+          <p className="text-gray-600 mb-6">Composez votre première leçon.</p>
           <Button asChild className="bg-violet-600 hover:bg-violet-700">
             <Link href="/generateur">
               <Sparkles className="h-4 w-4 mr-2" />

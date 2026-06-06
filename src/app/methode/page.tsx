@@ -253,7 +253,7 @@ export default function MethodePage() {
         </div>
       </section>
 
-      {/* LE RÔLE DE L'IA */}
+      {/* L'OUTIL AU SERVICE DE LA MÉTHODE */}
       <section className="py-24 px-6 bg-parchment">
         <div className="max-w-3xl mx-auto">
           <AnimateOnScroll className="text-center mb-12">
@@ -262,19 +262,19 @@ export default function MethodePage() {
               className="text-4xl font-light text-charcoal"
               style={{ fontFamily: "'Cormorant Garamond', serif" }}
             >
-              L&apos;IA au service de la méthode,<br /><em>jamais l&apos;inverse</em>
+              L&apos;outil au service de la méthode,<br /><em>jamais l&apos;inverse</em>
             </h2>
           </AnimateOnScroll>
           <AnimateOnScroll delay={150} className="space-y-6 text-charcoal/70 leading-relaxed">
             <p>
-              L&apos;intelligence artificielle ne définit pas notre pédagogie : elle l&apos;applique.
-              Chaque leçon générée s&apos;inscrit dans ce curriculum, respecte l&apos;ordre des trois âges,
+              L&apos;outil ne définit pas notre pédagogie : il l&apos;applique.
+              Chaque leçon s&apos;inscrit dans ce curriculum, respecte l&apos;ordre des trois âges,
               et adapte le contenu au tempérament de l&apos;enfant — sans jamais diluer l&apos;exigence.
             </p>
             <p>
-              L&apos;outil personnalise les exemples, le rythme et les centres d&apos;intérêt. Il ne touche
+              Il personnalise les exemples, le rythme et les centres d&apos;intérêt. Il ne touche
               ni aux fondations, ni aux jalons de maîtrise. La cohérence d&apos;ensemble est garantie par
-              la méthode ; la personnalisation, par la machine. Le parent, lui, reste le maître.
+              la méthode ; la personnalisation, par l&apos;outil. Le parent, lui, reste le maître.
             </p>
           </AnimateOnScroll>
         </div>

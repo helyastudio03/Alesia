@@ -44,9 +44,9 @@ export default function ExemplesPage() {
       <section className="py-20 px-6">
         <AnimateOnScroll className="max-w-2xl mx-auto text-center">
           <p className="text-charcoal/70 leading-relaxed text-lg">
-            Voici quatre leçons réelles, une par domaine du curriculum. Chacune est née du même moteur
-            pédagogique que vous utiliserez — rigoureuse, enracinée, et toujours reliée au geste ou à
-            l&apos;observation directe. Aucune n&apos;a été retouchée à la main.
+            Voici quatre leçons réelles, une par domaine du curriculum — rigoureuses, enracinées, et
+            toujours reliées au geste ou à l&apos;observation directe. Chacune illustre ce que la méthode
+            produit, sans retouche.
           </p>
         </AnimateOnScroll>
       </section>
@@ -65,7 +65,7 @@ export default function ExemplesPage() {
           </h2>
           <div className="w-12 h-px bg-gold mx-auto mb-8" />
           <p className="text-cream/75 text-lg leading-relaxed mb-10">
-            Décrivez l&apos;enfant, la matière et le sujet. Le moteur compose une leçon sur mesure,
+            Décrivez l&apos;enfant, la matière et le sujet. Une leçon sur mesure se compose,
             fidèle à la méthode, en quelques secondes.
           </p>
           <Link

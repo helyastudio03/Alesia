@@ -162,7 +162,7 @@ export default function NouvelEnfantPage() {
               <Input
                 value={newInterest}
                 onChange={e => setNewInterest(e.target.value)}
-                placeholder="Ex: Dinosaures, Minecraft, Football..."
+                placeholder="Ex : Astronomie, Chevaliers, Voile, Botanique..."
                 onKeyDown={e => e.key === 'Enter' && (e.preventDefault(), addInterest())}
               />
               <Button type="button" variant="outline" onClick={addInterest}>

@@ -157,7 +157,7 @@ export default function HomePage() {
               Notre vision est celle d&apos;une éducation exigeante et cohérente : former des individus complets, capables de penser par eux-mêmes, ancrés dans une tradition vivante, aptes à agir dans le monde réel.
             </p>
             <p className="text-cream/75 text-lg leading-relaxed">
-              Alesia n&apos;est pas un simple générateur de fiches. C&apos;est un outil construit sur une vision éducative assumée, qui utilise l&apos;IA pour personnaliser les parcours sans jamais trahir la cohérence d&apos;ensemble.
+              Alesia n&apos;est pas un simple générateur de fiches. C&apos;est un outil construit sur une vision éducative assumée, qui personnalise chaque parcours sans jamais trahir la cohérence d&apos;ensemble.
             </p>
           </AnimateOnScroll>
         </div>
@@ -174,7 +174,7 @@ export default function HomePage() {
           </AnimateOnScroll>
           <div className="space-y-0 divide-y divide-stone/20">
             {[
-              { num: '01', title: "Connaître l'enfant", desc: "Renseignez son tempérament, son niveau, ses forces et ses intérêts. L'IA adapte le contenu et les exemples à sa nature propre — jamais l'inverse." },
+              { num: '01', title: "Connaître l'enfant", desc: "Renseignez son tempérament, son niveau, ses forces et ses intérêts. Le contenu et les exemples s'adaptent à sa nature propre — jamais l'inverse." },
               { num: '02', title: 'Choisir la discipline', desc: 'Sélectionnez la matière, le thème, la durée. Précisez si vous travaillez le corps aussi bien que l\'esprit — sport, artisanat, nature sont des disciplines à part entière.' },
               { num: '03', title: 'Recevoir le plan', desc: 'Un plan complet et cohérent : objectifs clairs, contenu structuré, activités pratiques, évaluation par la maîtrise. Sauvegardez, ajustez, progressez.' },
             ].map((step, i) => (

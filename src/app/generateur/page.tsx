@@ -130,7 +130,7 @@ export default function GenerateurPage() {
         />
         <div className="absolute inset-0 bg-forest/82" />
         <div className="relative z-10 text-center px-6 max-w-3xl mx-auto">
-          <p className="text-gold tracking-[0.3em] text-sm uppercase mb-6 font-light">Moteur pédagogique</p>
+          <p className="text-gold tracking-[0.3em] text-sm uppercase mb-6 font-light">La méthode en pratique</p>
           <h1
             className="text-5xl md:text-6xl font-light text-cream mb-6"
             style={{ ...GARAMOND, letterSpacing: '-0.01em' }}
@@ -217,7 +217,7 @@ export default function GenerateurPage() {
                 <Input
                   value={form.interests}
                   onChange={e => setForm({ ...form, interests: e.target.value })}
-                  placeholder="Ex : Dinosaures, Football, Minecraft"
+                  placeholder="Ex : Astronomie, Chevaliers, Voile, Botanique"
                   className="border-stone/40 bg-cream text-charcoal rounded-none h-10 text-sm focus-visible:ring-0 focus-visible:border-charcoal"
                 />
               </FieldGroup>
@@ -266,7 +266,7 @@ export default function GenerateurPage() {
               <div className="h-full min-h-[400px] flex flex-col items-center justify-center border border-dashed border-stone/30 p-12">
                 <div className="w-8 h-8 border border-gold/40 border-t-gold animate-spin rounded-full mb-6" />
                 <p className="text-charcoal/50 text-sm tracking-widest uppercase">
-                  Le moteur compose…
+                  La leçon se compose…
                 </p>
               </div>
             )}
