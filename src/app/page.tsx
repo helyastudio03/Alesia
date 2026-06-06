@@ -287,6 +287,7 @@ export default function HomePage() {
             <nav className="flex flex-wrap gap-x-8 gap-y-2">
               {[
                 { href: '/', label: 'Accueil' },
+                { href: '/methode', label: 'Méthode' },
                 { href: '/enfants', label: 'Enfants' },
                 { href: '/lecons', label: 'Leçons' },
                 { href: '/generateur', label: 'Générateur' },
