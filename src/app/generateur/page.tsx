@@ -10,6 +10,7 @@ import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
 import { Sparkles, BookOpen, Clock, Target, Wrench, ClipboardList, ChevronRight, Loader2 } from 'lucide-react'
 import { Separator } from '@/components/ui/separator'
+import { parsePartialJSON } from '@/lib/partial-json'
 
 const SUBJECTS = [
   'Mathématiques', 'Français', 'Histoire', 'Géographie',
@@ -49,13 +50,15 @@ export default function GenerateurPage() {
     additionalContext: '',
   })
   const [loading, setLoading] = useState(false)
-  const [lesson, setLesson] = useState<LessonResult | null>(null)
+  const [streaming, setStreaming] = useState(false)
+  const [lesson, setLesson] = useState<Partial<LessonResult> | null>(null)
   const [error, setError] = useState<string | null>(null)
 
   const handleGenerate = async () => {
     if (!form.subject || !form.gradeLevel || !form.topic) return
 
     setLoading(true)
+    setStreaming(false)
     setError(null)
     setLesson(null)
 
@@ -66,14 +69,33 @@ export default function GenerateurPage() {
         body: JSON.stringify(form),
       })
 
-      if (!response.ok) throw new Error('Erreur lors de la génération')
+      if (!response.ok || !response.body) throw new Error('Erreur lors de la génération')
 
-      const data = await response.json()
-      setLesson(data.lesson)
+      const reader = response.body.getReader()
+      const decoder = new TextDecoder()
+      let accumulated = ''
+
+      while (true) {
+        const { done, value } = await reader.read()
+        if (done) break
+
+        accumulated += decoder.decode(value, { stream: true })
+        const partial = parsePartialJSON<LessonResult>(accumulated)
+        if (partial) {
+          setLesson(partial)
+          setStreaming(true)
+        }
+      }
+
+      // Parse final propre une fois le flux terminé.
+      const final = parsePartialJSON<LessonResult>(accumulated)
+      if (final) setLesson(final)
     } catch {
       setError('Une erreur est survenue. Vérifiez votre clé API Anthropic.')
+      setLesson(null)
     } finally {
       setLoading(false)
+      setStreaming(false)
     }
   }
 
@@ -221,7 +243,7 @@ export default function GenerateurPage() {
             </div>
           )}
 
-          {loading && (
+          {loading && !lesson && (
             <div className="h-full flex items-center justify-center border-2 border-dashed border-violet-200 bg-violet-50 rounded-xl p-12">
               <div className="text-center">
                 <div className="w-12 h-12 bg-violet-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -252,98 +274,119 @@ export default function GenerateurPage() {
                       {lesson.age && <span className="italic">{lesson.age}</span>}
                     </div>
                   )}
-                  <CardTitle className="text-xl">{lesson.title}</CardTitle>
-                </CardHeader>
-              </Card>
-
-              <Card>
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-base flex items-center gap-2">
-                    <Target className="h-4 w-4 text-violet-600" />
-                    Objectifs pédagogiques
+                  <CardTitle className="text-xl">
+                    {lesson.title || <span className="text-gray-400">Rédaction du titre…</span>}
                   </CardTitle>
                 </CardHeader>
-                <CardContent>
-                  <ul className="space-y-2">
-                    {lesson.objectives.map((obj, i) => (
-                      <li key={i} className="flex items-start gap-2 text-sm">
-                        <ChevronRight className="h-4 w-4 text-violet-500 mt-0.5 flex-shrink-0" />
-                        {obj}
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
               </Card>
 
-              <Card>
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-base flex items-center gap-2">
-                    <BookOpen className="h-4 w-4 text-blue-600" />
-                    Introduction
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-gray-700 leading-relaxed">{lesson.introduction}</p>
-                </CardContent>
-              </Card>
+              {streaming && (
+                <div className="flex items-center gap-2 text-xs text-violet-600">
+                  <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                  Rédaction en cours…
+                </div>
+              )}
 
-              <Card>
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-base">Contenu de la leçon</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap">{lesson.content}</div>
-                </CardContent>
-              </Card>
+              {lesson.objectives && lesson.objectives.length > 0 && (
+                <Card>
+                  <CardHeader className="pb-3">
+                    <CardTitle className="text-base flex items-center gap-2">
+                      <Target className="h-4 w-4 text-violet-600" />
+                      Objectifs pédagogiques
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <ul className="space-y-2">
+                      {lesson.objectives.map((obj, i) => (
+                        <li key={i} className="flex items-start gap-2 text-sm">
+                          <ChevronRight className="h-4 w-4 text-violet-500 mt-0.5 flex-shrink-0" />
+                          {obj}
+                        </li>
+                      ))}
+                    </ul>
+                  </CardContent>
+                </Card>
+              )}
 
-              <Card>
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-base flex items-center gap-2">
-                    <Sparkles className="h-4 w-4 text-amber-500" />
-                    Activités
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <ol className="space-y-3">
-                    {lesson.activities.map((activity, i) => (
-                      <li key={i} className="flex gap-3 text-sm">
-                        <span className="w-6 h-6 bg-amber-100 text-amber-700 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">
-                          {i + 1}
-                        </span>
-                        {activity}
-                      </li>
-                    ))}
-                  </ol>
-                </CardContent>
-              </Card>
+              {lesson.introduction && (
+                <Card>
+                  <CardHeader className="pb-3">
+                    <CardTitle className="text-base flex items-center gap-2">
+                      <BookOpen className="h-4 w-4 text-blue-600" />
+                      Introduction
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-gray-700 leading-relaxed">{lesson.introduction}</p>
+                  </CardContent>
+                </Card>
+              )}
 
-              <Card>
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-base flex items-center gap-2">
-                    <Wrench className="h-4 w-4 text-green-600" />
-                    Matériel nécessaire
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex flex-wrap gap-2">
-                    {lesson.materials.map((material, i) => (
-                      <Badge key={i} variant="outline" className="text-xs">{material}</Badge>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
+              {lesson.content && (
+                <Card>
+                  <CardHeader className="pb-3">
+                    <CardTitle className="text-base">Contenu de la leçon</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap">{lesson.content}</div>
+                  </CardContent>
+                </Card>
+              )}
 
-              <Card>
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-base flex items-center gap-2">
-                    <ClipboardList className="h-4 w-4 text-red-500" />
-                    Évaluation
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-gray-700 leading-relaxed">{lesson.assessment}</p>
-                </CardContent>
-              </Card>
+              {lesson.activities && lesson.activities.length > 0 && (
+                <Card>
+                  <CardHeader className="pb-3">
+                    <CardTitle className="text-base flex items-center gap-2">
+                      <Sparkles className="h-4 w-4 text-amber-500" />
+                      Activités
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <ol className="space-y-3">
+                      {lesson.activities.map((activity, i) => (
+                        <li key={i} className="flex gap-3 text-sm">
+                          <span className="w-6 h-6 bg-amber-100 text-amber-700 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">
+                            {i + 1}
+                          </span>
+                          {activity}
+                        </li>
+                      ))}
+                    </ol>
+                  </CardContent>
+                </Card>
+              )}
+
+              {lesson.materials && lesson.materials.length > 0 && (
+                <Card>
+                  <CardHeader className="pb-3">
+                    <CardTitle className="text-base flex items-center gap-2">
+                      <Wrench className="h-4 w-4 text-green-600" />
+                      Matériel nécessaire
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex flex-wrap gap-2">
+                      {lesson.materials.map((material, i) => (
+                        <Badge key={i} variant="outline" className="text-xs">{material}</Badge>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
+
+              {lesson.assessment && (
+                <Card>
+                  <CardHeader className="pb-3">
+                    <CardTitle className="text-base flex items-center gap-2">
+                      <ClipboardList className="h-4 w-4 text-red-500" />
+                      Évaluation
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-gray-700 leading-relaxed">{lesson.assessment}</p>
+                  </CardContent>
+                </Card>
+              )}
 
               {lesson.tips && (
                 <Card className="bg-amber-50 border-amber-200">

@@ -103,23 +103,44 @@ ${additionalContext ? `- Contexte supplémentaire : ${additionalContext}` : ''}
 
 Rattache la leçon au bon domaine du curriculum et au bon âge de progression. ${interests ? `Intègre les centres d'intérêt de l'enfant (${interests}) dans les exemples et activités.` : ''}`
 
-    const message = await client.messages.create({
+    const anthropicStream = await client.messages.create({
       model: 'claude-opus-4-8',
       max_tokens: 4096,
       system: SYSTEM_PROMPT,
       messages: [{ role: 'user', content: userPrompt }],
+      stream: true,
       output_config: {
         format: { type: 'json_schema', schema: LESSON_SCHEMA },
       },
-    } as Anthropic.MessageCreateParamsNonStreaming)
+    } as Anthropic.MessageCreateParamsStreaming)
 
-    const block = message.content[0]
-    if (block.type !== 'text') {
-      throw new Error('Unexpected response type')
-    }
+    const encoder = new TextEncoder()
+    const stream = new ReadableStream({
+      async start(controller) {
+        try {
+          for await (const event of anthropicStream) {
+            if (
+              event.type === 'content_block_delta' &&
+              event.delta.type === 'text_delta'
+            ) {
+              controller.enqueue(encoder.encode(event.delta.text))
+            }
+          }
+        } catch (err) {
+          console.error('Streaming error:', err)
+        } finally {
+          controller.close()
+        }
+      },
+    })
 
-    const lesson = JSON.parse(block.text)
-    return NextResponse.json({ lesson })
+    return new Response(stream, {
+      headers: {
+        'Content-Type': 'text/plain; charset=utf-8',
+        'Cache-Control': 'no-cache',
+        'X-Accel-Buffering': 'no',
+      },
+    })
   } catch (error) {
     console.error('Error generating lesson:', error)
     return NextResponse.json({ error: 'Failed to generate lesson' }, { status: 500 })
