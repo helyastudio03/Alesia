@@ -15,7 +15,7 @@ export async function Navbar() {
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="flex items-center gap-2">
             <span
-              style={{ fontFamily: "'Playfair Display', Georgia, serif", color: '#1a3a2a', fontSize: '1.25rem', fontWeight: 700 }}
+              style={{ fontFamily: "'Cormorant Garamond', serif", color: '#1a3a2a', fontSize: '1.25rem', fontWeight: 700 }}
             >
               Alesia
             </span>

@@ -1,263 +1,265 @@
 import Link from 'next/link'
+import Image from 'next/image'
+import { AnimateOnScroll } from '@/components/animate-on-scroll'
 
 export default function HomePage() {
   return (
-    <div>
-      {/* Hero */}
-      <section style={{ backgroundColor: '#1a3a2a' }} className="py-32 px-4 text-center">
-        <p style={{ color: '#b8962e', letterSpacing: '0.2em', fontSize: '0.75rem', fontWeight: 600 }} className="uppercase mb-6">
-          Instruction en Famille
-        </p>
-        <h1
-          style={{ fontFamily: "'Playfair Display', Georgia, serif", color: '#f5f0e8', fontSize: 'clamp(3rem, 8vw, 6rem)', lineHeight: 1.1 }}
-          className="mb-6"
-        >
-          Alesia
-        </h1>
-        <p style={{ color: '#f5f0e8', opacity: 0.8, fontFamily: "'Playfair Display', Georgia, serif" }} className="text-xl italic mb-12">
-          Transmettre le savoir. Perpétuer la tradition.
-        </p>
-        <div className="flex items-center justify-center gap-6 flex-wrap">
-          <Link
-            href="/enfants/nouveau"
-            style={{ borderColor: '#b8962e', color: '#f5f0e8', border: '1px solid #b8962e' }}
-            className="px-8 py-3 text-sm tracking-widest uppercase hover:bg-white hover:bg-opacity-10 transition-colors"
-          >
-            Commencer
-          </Link>
-          <Link
-            href="/generateur"
-            style={{ color: '#f5f0e8', opacity: 0.7 }}
-            className="px-8 py-3 text-sm tracking-widest uppercase hover:opacity-100 transition-opacity"
-          >
-            En savoir plus
-          </Link>
-        </div>
-      </section>
+    <div className="bg-cream">
 
-      {/* Épigraphe */}
-      <section style={{ backgroundColor: '#f5f0e8' }} className="py-20 px-4 text-center">
-        <div className="max-w-2xl mx-auto">
-          <p
-            style={{ fontFamily: "'Playfair Display', Georgia, serif", color: '#1c1c1c', fontSize: '1.25rem' }}
-            className="italic mb-6 leading-relaxed"
-          >
-            &ldquo;L&apos;éducation est l&apos;art de former les hommes, non de les informer.&rdquo;
+      {/* HERO — full bleed with overlay */}
+      <section className="relative h-[92vh] min-h-[600px] flex items-center justify-center overflow-hidden">
+        <Image
+          src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=1600&q=80"
+          alt="Bibliothèque classique"
+          fill
+          className="object-cover object-center"
+          priority
+        />
+        <div className="absolute inset-0 bg-charcoal/70" />
+        <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
+          <p className="text-gold tracking-[0.3em] text-sm uppercase mb-6 font-light">
+            Instruction en Famille
           </p>
-          <p style={{ color: '#8b7355', fontSize: '0.875rem', letterSpacing: '0.05em' }}>
-            — Émile Durkheim
+          <h1 className="text-7xl md:text-8xl font-light text-cream mb-6" style={{fontFamily: "'Cormorant Garamond', serif", letterSpacing: '-0.02em'}}>
+            Alesia
+          </h1>
+          <div className="w-16 h-px bg-gold mx-auto mb-6" />
+          <p className="text-cream/80 text-xl md:text-2xl font-light italic mb-10" style={{fontFamily: "'Cormorant Garamond', serif"}}>
+            Transmettre le savoir. Perpétuer la tradition.
           </p>
-        </div>
-      </section>
-
-      {/* Notre philosophie */}
-      <section style={{ backgroundColor: '#faf7f2' }} className="py-24 px-4">
-        <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16">
-          <div style={{ borderTop: '1px solid #b8962e' }} className="pt-8">
-            <h2
-              style={{ fontFamily: "'Playfair Display', Georgia, serif", color: '#1a3a2a', fontSize: '1.75rem' }}
-              className="mb-6"
+          <div className="flex items-center justify-center gap-6">
+            <Link
+              href="/enfants/nouveau"
+              className="px-8 py-3 border border-gold text-gold hover:bg-gold hover:text-charcoal transition-all duration-300 text-sm tracking-widest uppercase"
             >
-              Une éducation enracinée
-            </h2>
-            <p style={{ color: '#1c1c1c', lineHeight: 1.8, opacity: 0.85 }} className="text-base">
-              L&apos;instruction que nous défendons ne se réduit pas à la transmission d&apos;informations. Elle est un acte de civilisation&nbsp;: former l&apos;enfant dans sa totalité, l&apos;enraciner dans l&apos;héritage de l&apos;Europe classique, lui donner les outils de la raison et la profondeur de l&apos;âme. Contre la fragmentation et la superficialité du monde moderne, nous proposons une éducation intégrale, fidèle à la tradition occidentale.
-            </p>
-          </div>
-          <div style={{ borderTop: '1px solid #b8962e' }} className="pt-8">
-            <h2
-              style={{ fontFamily: "'Playfair Display', Georgia, serif", color: '#1a3a2a', fontSize: '1.75rem' }}
-              className="mb-6"
+              Commencer
+            </Link>
+            <Link
+              href="#philosophie"
+              className="px-8 py-3 text-cream/70 hover:text-cream text-sm tracking-widest uppercase transition-colors border border-cream/20 hover:border-cream/50"
             >
-              La méthode classique
-            </h2>
-            <p style={{ color: '#1c1c1c', lineHeight: 1.8, opacity: 0.85 }} className="text-base">
-              Fondée sur le trivium — grammaire, rhétorique, dialectique — la méthode classique forme l&apos;esprit avant d&apos;accumuler les savoirs. L&apos;enfant apprend d&apos;abord à bien lire, à bien parler, à bien raisonner. Sur ce socle solide, les matières s&apos;édifient avec cohérence et profondeur. Chaque leçon est structurée, rigoureuse, et ancrée dans la continuité du patrimoine intellectuel européen.
-            </p>
+              En savoir plus
+            </Link>
           </div>
         </div>
+        {/* Scroll indicator */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-cream/40">
+          <span className="text-xs tracking-widest uppercase">Défiler</span>
+          <div className="w-px h-8 bg-cream/30" />
+        </div>
       </section>
 
-      {/* Ce que nous offrons */}
-      <section style={{ backgroundColor: '#f5f0e8' }} className="py-24 px-4">
-        <div className="max-w-5xl mx-auto">
-          <h2
-            style={{ fontFamily: "'Playfair Display', Georgia, serif", color: '#1a3a2a', fontSize: '2rem', textAlign: 'center' }}
-            className="mb-16"
-          >
-            Ce que nous offrons
-          </h2>
+      {/* EPIGRAPHE */}
+      <section className="py-20 px-6 bg-parchment">
+        <AnimateOnScroll className="max-w-2xl mx-auto text-center">
+          <div className="w-8 h-px bg-stone mx-auto mb-8" />
+          <blockquote className="text-2xl md:text-3xl italic text-charcoal/80 leading-relaxed mb-6" style={{fontFamily: "'Cormorant Garamond', serif"}}>
+            « L&apos;éducation est l&apos;art de former les hommes, non de les informer. »
+          </blockquote>
+          <cite className="text-stone text-sm tracking-widest uppercase not-italic">— Émile Durkheim</cite>
+          <div className="w-8 h-px bg-stone mx-auto mt-8" />
+        </AnimateOnScroll>
+      </section>
+
+      {/* PHILOSOPHIE */}
+      <section id="philosophie" className="py-24 px-6">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          <AnimateOnScroll>
+            <div className="relative">
+              <Image
+                src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=800&q=80"
+                alt="Livres anciens"
+                width={600}
+                height={700}
+                className="object-cover w-full grayscale contrast-110"
+                style={{height: '500px'}}
+              />
+              <div className="absolute -bottom-4 -right-4 w-full h-full border border-gold -z-10" />
+            </div>
+          </AnimateOnScroll>
+          <AnimateOnScroll delay={200} className="space-y-10">
+            <div>
+              <p className="text-gold tracking-[0.25em] text-xs uppercase mb-4">Notre philosophie</p>
+              <h2 className="text-4xl md:text-5xl font-light text-charcoal mb-6" style={{fontFamily: "'Cormorant Garamond', serif"}}>
+                Une éducation<br /><em>enracinée</em>
+              </h2>
+              <p className="text-charcoal/70 leading-relaxed">
+                L&apos;instruction en famille n&apos;est pas un repli — c&apos;est un choix de civilisation. Celui de transmettre, plutôt que de déléguer. De former l&apos;intelligence et le caractère, plutôt que de cocher des cases. Alesia est née de cette conviction.
+              </p>
+            </div>
+            <div className="border-l-2 border-gold pl-6">
+              <h3 className="text-2xl font-light text-charcoal mb-3" style={{fontFamily: "'Cormorant Garamond', serif"}}>La méthode classique</h3>
+              <p className="text-charcoal/70 leading-relaxed">
+                Grammaire, rhétorique, dialectique — le trivium antique reste la voie royale vers une pensée rigoureuse. Nos plans de leçons s&apos;inscrivent dans cette tradition millénaire, adaptée à l&apos;enfant d&apos;aujourd&apos;hui.
+              </p>
+            </div>
+          </AnimateOnScroll>
+        </div>
+      </section>
+
+      {/* CE QUE NOUS OFFRONS */}
+      <section className="py-24 px-6 bg-parchment">
+        <div className="max-w-6xl mx-auto">
+          <AnimateOnScroll className="text-center mb-16">
+            <p className="text-gold tracking-[0.25em] text-xs uppercase mb-4">Notre offre</p>
+            <h2 className="text-4xl md:text-5xl font-light text-charcoal" style={{fontFamily: "'Cormorant Garamond', serif"}}>
+              Des outils à la hauteur<br /><em>de votre ambition</em>
+            </h2>
+          </AnimateOnScroll>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               {
-                title: 'Profils personnalisés',
-                desc: "Chaque enfant est unique. Alesia permet de définir sa nature propre, son rythme, ses forces et ses inclinations — pour que l’enseignement soit adapté à ce qu’il est réellement.",
-              },
-              {
-                title: 'Plans de leçons',
-                desc: "Des plans structurés et rigoureux, organisés selon les principes de la pédagogie classique. Non des fiches vides, mais de véritables guides d’instruction.",
-              },
-              {
-                title: 'Suivi de la formation',
-                desc: "Suivre l’avancement de chaque enfant dans le temps, mesurer la profondeur acquise, ajuster la méthode sans jamais sacrifier l’exigence.",
-              },
-            ].map((item) => (
-              <div
-                key={item.title}
-                style={{ borderTop: '2px solid #b8962e', backgroundColor: '#faf7f2' }}
-                className="p-8"
-              >
-                <h3
-                  style={{ fontFamily: "'Playfair Display', Georgia, serif", color: '#1c1c1c', fontSize: '1.125rem' }}
-                  className="mb-4"
-                >
-                  {item.title}
-                </h3>
-                <p style={{ color: '#1c1c1c', opacity: 0.75, lineHeight: 1.8 }} className="text-sm">
-                  {item.desc}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* À propos */}
-      <section style={{ backgroundColor: '#1a3a2a' }} className="py-24 px-4 text-center">
-        <div className="max-w-3xl mx-auto">
-          <h2
-            style={{ fontFamily: "'Playfair Display', Georgia, serif", color: '#b8962e', fontSize: '2rem' }}
-            className="mb-8"
-          >
-            Qui sommes-nous
-          </h2>
-          <p style={{ color: '#f5f0e8', opacity: 0.85, lineHeight: 1.9 }} className="text-base">
-            Alesia a été conçu par des parents pour des parents qui ont choisi de prendre en main l&apos;éducation de leurs enfants — loin de l&apos;influence niveleuse de l&apos;école moderne et de ses injonctions à l&apos;uniformité. Nous croyons que la vraie formation se transmet dans la proximité, dans la continuité, dans la fidélité à un héritage. Enracinés dans la tradition classique européenne, nous proposons un outil à la hauteur de cette ambition.
-          </p>
-        </div>
-      </section>
-
-      {/* Notre méthode */}
-      <section style={{ backgroundColor: '#faf7f2' }} className="py-24 px-4">
-        <div className="max-w-3xl mx-auto">
-          <h2
-            style={{ fontFamily: "'Playfair Display', Georgia, serif", color: '#1a3a2a', fontSize: '2rem', textAlign: 'center' }}
-            className="mb-16"
-          >
-            Notre méthode
-          </h2>
-          <div className="space-y-12">
-            {[
-              {
                 num: 'I',
-                title: 'Connaître l’enfant',
-                desc: "Comprendre sa nature, son rythme, ses forces. L’instruction commence par l’observation attentive de ce que l’enfant est — non de ce que l’on voudrait qu’il soit.",
+                title: 'Profils personnalisés',
+                desc: "Chaque enfant est unique. Renseignez son niveau, son style d'apprentissage, ses centres d'intérêt — pour des leçons qui lui ressemblent.",
               },
               {
                 num: 'II',
-                title: 'Choisir la matière',
-                desc: "Sélectionner la discipline et l’approche avec discernement. Chaque matière est un domaine du savoir avec ses exigences propres et sa logique interne.",
+                title: 'Plans de leçons',
+                desc: "Des plans structurés et rigoureux, générés en quelques secondes, couvrant objectifs, contenu, activités et évaluation.",
               },
               {
                 num: 'III',
-                title: 'Recevoir la leçon',
-                desc: "Un plan de leçon rigoureux et complet, structuré selon les principes classiques — avec ses objectifs, ses étapes, ses exercices et ses critères d’excellence.",
+                title: 'Suivi de la formation',
+                desc: "Une bibliothèque de toutes vos leçons, organisée par enfant et par matière, pour suivre la progression dans le temps.",
               },
-            ].map((step) => (
-              <div key={step.num} className="flex gap-8" style={{ borderBottom: '1px solid #e8e0d0', paddingBottom: '3rem' }}>
-                <div
-                  style={{ fontFamily: "'Playfair Display', Georgia, serif", color: '#b8962e', fontSize: '2rem', minWidth: '2.5rem', lineHeight: 1 }}
-                >
-                  {step.num}
-                </div>
-                <div>
-                  <h3
-                    style={{ fontFamily: "'Playfair Display', Georgia, serif", color: '#1a3a2a', fontSize: '1.25rem' }}
-                    className="mb-3"
-                  >
-                    {step.title}
-                  </h3>
-                  <p style={{ color: '#1c1c1c', opacity: 0.75, lineHeight: 1.8 }} className="text-sm">
-                    {step.desc}
-                  </p>
-                </div>
-              </div>
+            ].map((item, i) => (
+              <AnimateOnScroll key={item.num} delay={i * 150} className="bg-cream border-t-2 border-gold p-8">
+                <div className="text-4xl text-gold/40 mb-4" style={{fontFamily: "'Cormorant Garamond', serif"}}>{item.num}</div>
+                <h3 className="text-xl font-light text-charcoal mb-3" style={{fontFamily: "'Cormorant Garamond', serif"}}>{item.title}</h3>
+                <p className="text-charcoal/60 text-sm leading-relaxed">{item.desc}</p>
+              </AnimateOnScroll>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Témoignages */}
-      <section style={{ backgroundColor: '#f5f0e8' }} className="py-24 px-4">
+      {/* À PROPOS — dark section with photo */}
+      <section className="relative py-32 px-6 overflow-hidden">
+        <Image
+          src="https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=1600&q=80"
+          alt="Grande bibliothèque"
+          fill
+          className="object-cover grayscale"
+        />
+        <div className="absolute inset-0 bg-forest/85" />
+        <div className="relative z-10 max-w-3xl mx-auto text-center">
+          <AnimateOnScroll>
+            <p className="text-gold tracking-[0.25em] text-xs uppercase mb-6">Qui sommes-nous</p>
+            <h2 className="text-4xl md:text-5xl font-light text-cream mb-8" style={{fontFamily: "'Cormorant Garamond', serif"}}>
+              Construits par des parents,<br /><em>pour des parents</em>
+            </h2>
+            <div className="w-12 h-px bg-gold mx-auto mb-8" />
+            <p className="text-cream/75 text-lg leading-relaxed mb-6">
+              Alesia est né du refus de confier à d&apos;autres ce qui nous appartient en propre : la formation de nos enfants. Face à une école de plus en plus homogénéisante, nous avons choisi la voie exigeante de l&apos;instruction en famille.
+            </p>
+            <p className="text-cream/75 text-lg leading-relaxed">
+              Notre plateforme s&apos;appuie sur la tradition pédagogique européenne classique — de Quintilien à Charlotte Mason — pour offrir aux parents les outils d&apos;une véritable transmission.
+            </p>
+          </AnimateOnScroll>
+        </div>
+      </section>
+
+      {/* METHODE */}
+      <section className="py-24 px-6">
         <div className="max-w-4xl mx-auto">
-          <h2
-            style={{ fontFamily: "'Playfair Display', Georgia, serif", color: '#1a3a2a', fontSize: '2rem', textAlign: 'center' }}
-            className="mb-16"
-          >
-            Témoignages
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+          <AnimateOnScroll className="text-center mb-16">
+            <p className="text-gold tracking-[0.25em] text-xs uppercase mb-4">La méthode</p>
+            <h2 className="text-4xl md:text-5xl font-light text-charcoal" style={{fontFamily: "'Cormorant Garamond', serif"}}>
+              Trois étapes vers<br /><em>la leçon parfaite</em>
+            </h2>
+          </AnimateOnScroll>
+          <div className="space-y-0 divide-y divide-stone/20">
             {[
-              {
-                quote: "Alesia a transformé notre quotidien. Mes enfants apprennent enfin avec profondeur.",
-                author: "Marie, mère de 3 enfants",
-              },
-              {
-                quote: "Un outil qui comprend ce que signifie vraiment instruire.",
-                author: "Jean-François, père",
-              },
-            ].map((t) => (
-              <div key={t.author} style={{ borderLeft: '2px solid #b8962e' }} className="pl-8">
-                <p
-                  style={{ fontFamily: "'Playfair Display', Georgia, serif", color: '#1c1c1c', fontSize: '1.125rem', lineHeight: 1.7 }}
-                  className="italic mb-4"
-                >
-                  &ldquo;{t.quote}&rdquo;
-                </p>
-                <p style={{ color: '#8b7355', fontSize: '0.875rem', letterSpacing: '0.05em' }}>
-                  — {t.author}
-                </p>
-              </div>
+              { num: '01', title: "Connaître l'enfant", desc: "Renseignez son tempérament, son niveau, ses forces et ses centres d'intérêt. L'outil s'adapte à lui — jamais l'inverse." },
+              { num: '02', title: 'Choisir la matière', desc: 'Sélectionnez la matière, le thème, la durée souhaitée. Précisez le contexte si nécessaire.' },
+              { num: '03', title: 'Recevoir la leçon', desc: 'Un plan complet apparaît : objectifs, introduction, contenu structuré, activités, matériel et évaluation.' },
+            ].map((step, i) => (
+              <AnimateOnScroll key={step.num} delay={i * 100} className="py-8 flex gap-8 items-start">
+                <div className="text-5xl text-gold/30 font-light flex-shrink-0 w-16" style={{fontFamily: "'Cormorant Garamond', serif"}}>{step.num}</div>
+                <div>
+                  <h3 className="text-2xl font-light text-charcoal mb-2" style={{fontFamily: "'Cormorant Garamond', serif"}}>{step.title}</h3>
+                  <p className="text-charcoal/60 leading-relaxed">{step.desc}</p>
+                </div>
+              </AnimateOnScroll>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer style={{ backgroundColor: '#1c1c1c', color: '#f5f0e8' }} className="py-16 px-4">
-        <div className="max-w-5xl mx-auto text-center">
-          <p
-            style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: '1.5rem', color: '#f5f0e8' }}
-            className="mb-8"
-          >
-            Alesia · IEF
-          </p>
-          <nav className="flex flex-wrap justify-center gap-8 mb-10">
+      {/* TÉMOIGNAGES */}
+      <section className="py-24 px-6 bg-parchment">
+        <div className="max-w-5xl mx-auto">
+          <AnimateOnScroll className="text-center mb-16">
+            <p className="text-gold tracking-[0.25em] text-xs uppercase mb-4">Témoignages</p>
+            <h2 className="text-4xl font-light text-charcoal" style={{fontFamily: "'Cormorant Garamond', serif"}}>
+              Ils ont choisi <em>Alesia</em>
+            </h2>
+          </AnimateOnScroll>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {[
-              { href: '/', label: 'Accueil' },
-              { href: '#philosophie', label: 'Philosophie' },
-              { href: '/enfants', label: 'Enfants' },
-              { href: '/lecons', label: 'Leçons' },
-              { href: '/generateur', label: 'Générateur' },
-            ].map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                style={{ color: '#f5f0e8', opacity: 0.6, fontSize: '0.8rem', letterSpacing: '0.1em' }}
-                className="uppercase hover:opacity-100 transition-opacity"
-              >
-                {link.label}
-              </Link>
+              { quote: "Alesia a transformé notre quotidien. Mes enfants apprennent avec une profondeur que l'école n'aurait jamais pu leur offrir.", author: "Marie", role: "Mère de trois enfants, Lyon" },
+              { quote: "Un outil qui comprend ce que signifie vraiment instruire. Pas de gadgets — de la rigueur, de la structure, de la beauté.", author: "Jean-François", role: "Père, Bordeaux" },
+            ].map((t, i) => (
+              <AnimateOnScroll key={i} delay={i * 150} className="bg-cream p-8 border-l-2 border-gold">
+                <blockquote className="text-xl italic text-charcoal/80 leading-relaxed mb-6" style={{fontFamily: "'Cormorant Garamond', serif"}}>
+                  « {t.quote} »
+                </blockquote>
+                <div>
+                  <p className="font-medium text-charcoal text-sm">{t.author}</p>
+                  <p className="text-stone text-sm">{t.role}</p>
+                </div>
+              </AnimateOnScroll>
             ))}
-          </nav>
-          <p style={{ color: '#8b7355', fontSize: '0.875rem', fontStyle: 'italic', fontFamily: "'Playfair Display', Georgia, serif" }} className="mb-6">
-            L&apos;héritage se transmet, il ne s&apos;improvise pas.
-          </p>
-          <p style={{ color: '#f5f0e8', opacity: 0.3, fontSize: '0.75rem' }}>
-            &copy; {new Date().getFullYear()} Alesia · Instruction en Famille
-          </p>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA FINAL */}
+      <section className="py-24 px-6 bg-forest text-center">
+        <AnimateOnScroll className="max-w-2xl mx-auto">
+          <h2 className="text-4xl md:text-5xl font-light text-cream mb-6" style={{fontFamily: "'Cormorant Garamond', serif"}}>
+            Prêt à commencer<br /><em>la transmission ?</em>
+          </h2>
+          <div className="w-12 h-px bg-gold mx-auto mb-8" />
+          <Link
+            href="/enfants/nouveau"
+            className="inline-block px-10 py-4 border border-gold text-gold hover:bg-gold hover:text-charcoal transition-all duration-300 text-sm tracking-widest uppercase"
+          >
+            Créer le premier profil
+          </Link>
+        </AnimateOnScroll>
+      </section>
+
+      {/* FOOTER */}
+      <footer className="bg-charcoal py-16 px-6">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex flex-col md:flex-row justify-between items-start gap-8 mb-12">
+            <div>
+              <p className="text-2xl text-cream mb-1" style={{fontFamily: "'Cormorant Garamond', serif"}}>Alesia <span className="text-stone text-lg">· IEF</span></p>
+              <p className="text-stone text-sm italic" style={{fontFamily: "'Cormorant Garamond', serif"}}>L&apos;héritage se transmet, il ne s&apos;improvise pas.</p>
+            </div>
+            <nav className="flex flex-wrap gap-x-8 gap-y-2">
+              {[
+                { href: '/', label: 'Accueil' },
+                { href: '/enfants', label: 'Enfants' },
+                { href: '/lecons', label: 'Leçons' },
+                { href: '/generateur', label: 'Générateur' },
+              ].map(link => (
+                <Link key={link.href} href={link.href} className="text-stone hover:text-cream text-sm tracking-wider uppercase transition-colors">
+                  {link.label}
+                </Link>
+              ))}
+            </nav>
+          </div>
+          <div className="border-t border-stone/20 pt-8 text-center">
+            <p className="text-stone/50 text-xs tracking-wider uppercase">
+              © {new Date().getFullYear()} Alesia — Tous droits réservés
+            </p>
+          </div>
         </div>
       </footer>
+
     </div>
   )
 }
