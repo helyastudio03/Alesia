@@ -25,7 +25,7 @@ export default function HomePage() {
           </h1>
           <div className="w-16 h-px bg-gold mx-auto mb-6" />
           <p className="text-cream/80 text-xl md:text-2xl font-light italic mb-10" style={{fontFamily: "'Cormorant Garamond', serif"}}>
-            Transmettre le savoir. Perpétuer la tradition.
+            Former des individus complets. Transmettre ce qui dure.
           </p>
           <div className="flex items-center justify-center gap-6">
             <Link
@@ -54,9 +54,9 @@ export default function HomePage() {
         <AnimateOnScroll className="max-w-2xl mx-auto text-center">
           <div className="w-8 h-px bg-stone mx-auto mb-8" />
           <blockquote className="text-2xl md:text-3xl italic text-charcoal/80 leading-relaxed mb-6" style={{fontFamily: "'Cormorant Garamond', serif"}}>
-            « L&apos;éducation est l&apos;art de former les hommes, non de les informer. »
+            « Il faut former un homme, et non un écolier. »
           </blockquote>
-          <cite className="text-stone text-sm tracking-widest uppercase not-italic">— Émile Durkheim</cite>
+          <cite className="text-stone text-sm tracking-widest uppercase not-italic">— Montaigne, Essais, I, 26</cite>
           <div className="w-8 h-px bg-stone mx-auto mt-8" />
         </AnimateOnScroll>
       </section>
@@ -84,13 +84,13 @@ export default function HomePage() {
                 Une éducation<br /><em>enracinée</em>
               </h2>
               <p className="text-charcoal/70 leading-relaxed">
-                L&apos;instruction en famille n&apos;est pas un repli — c&apos;est un choix de civilisation. Celui de transmettre, plutôt que de déléguer. De former l&apos;intelligence et le caractère, plutôt que de cocher des cases. Alesia est née de cette conviction.
+                L&apos;instruction en famille n&apos;est pas un repli — c&apos;est un choix de civilisation. Celui de former des individus complets : corps et esprit, raisonnement et savoir-faire, autonomie et enracinement. Pas des élèves conformes. Des êtres capables.
               </p>
             </div>
             <div className="border-l-2 border-gold pl-6">
-              <h3 className="text-2xl font-light text-charcoal mb-3" style={{fontFamily: "'Cormorant Garamond', serif"}}>La méthode classique</h3>
+              <h3 className="text-2xl font-light text-charcoal mb-3" style={{fontFamily: "'Cormorant Garamond', serif"}}>Savoirs enracinés, pratiques vivants</h3>
               <p className="text-charcoal/70 leading-relaxed">
-                Grammaire, rhétorique, dialectique — le trivium antique reste la voie royale vers une pensée rigoureuse. Nos plans de leçons s&apos;inscrivent dans cette tradition millénaire, adaptée à l&apos;enfant d&apos;aujourd&apos;hui.
+                Mathématiques, philosophie, latin, sciences naturelles, savoir-faire manuels, éducation physique — des disciplines choisies pour leur densité réelle, non pour leur utilité immédiate. La progression suit le mérite, pas le calendrier.
               </p>
             </div>
           </AnimateOnScroll>
@@ -110,18 +110,18 @@ export default function HomePage() {
             {[
               {
                 num: 'I',
-                title: 'Profils personnalisés',
-                desc: "Chaque enfant est unique. Renseignez son niveau, son style d'apprentissage, ses centres d'intérêt — pour des leçons qui lui ressemblent.",
+                title: 'Formation complète',
+                desc: "Mathématiques, philosophie, langues anciennes, sciences naturelles, arts, sport, savoir-faire manuels — un curriculum qui forme l'individu entier, pas seulement l'élève.",
               },
               {
                 num: 'II',
-                title: 'Plans de leçons',
-                desc: "Des plans structurés et rigoureux, générés en quelques secondes, couvrant objectifs, contenu, activités et évaluation.",
+                title: 'Progression par le mérite',
+                desc: "La progression suit la maîtrise réelle, non l'âge ni le calendrier scolaire. Chaque étape est franchie quand elle est acquise — ni plus tôt, ni plus tard.",
               },
               {
                 num: 'III',
-                title: 'Suivi de la formation',
-                desc: "Une bibliothèque de toutes vos leçons, organisée par enfant et par matière, pour suivre la progression dans le temps.",
+                title: 'Autonomie véritable',
+                desc: "L'objectif n'est pas un enfant qui obéit, mais un enfant qui comprend. Chaque leçon vise à développer le jugement, l'initiative et la capacité à apprendre seul.",
               },
             ].map((item, i) => (
               <AnimateOnScroll key={item.num} delay={i * 150} className="bg-cream border-t-2 border-gold p-8">
@@ -151,10 +151,13 @@ export default function HomePage() {
             </h2>
             <div className="w-12 h-px bg-gold mx-auto mb-8" />
             <p className="text-cream/75 text-lg leading-relaxed mb-6">
-              Alesia est né du refus de confier à d&apos;autres ce qui nous appartient en propre : la formation de nos enfants. Face à une école de plus en plus homogénéisante, nous avons choisi la voie exigeante de l&apos;instruction en famille.
+              Alesia est né d&apos;un constat simple : l&apos;école institutionnelle ne forme plus, elle normalise. Face à cette dérive, nous avons choisi de reprendre en main ce qui nous appartient — la formation de nos enfants.
+            </p>
+            <p className="text-cream/75 text-lg leading-relaxed mb-6">
+              Notre vision est celle d&apos;une éducation exigeante et cohérente : former des individus complets, capables de penser par eux-mêmes, ancrés dans une tradition vivante, aptes à agir dans le monde réel.
             </p>
             <p className="text-cream/75 text-lg leading-relaxed">
-              Notre plateforme s&apos;appuie sur la tradition pédagogique européenne classique — de Quintilien à Charlotte Mason — pour offrir aux parents les outils d&apos;une véritable transmission.
+              Alesia n&apos;est pas un simple générateur de fiches. C&apos;est un outil construit sur une vision éducative assumée, qui utilise l&apos;IA pour personnaliser les parcours sans jamais trahir la cohérence d&apos;ensemble.
             </p>
           </AnimateOnScroll>
         </div>
@@ -171,9 +174,9 @@ export default function HomePage() {
           </AnimateOnScroll>
           <div className="space-y-0 divide-y divide-stone/20">
             {[
-              { num: '01', title: "Connaître l'enfant", desc: "Renseignez son tempérament, son niveau, ses forces et ses centres d'intérêt. L'outil s'adapte à lui — jamais l'inverse." },
-              { num: '02', title: 'Choisir la matière', desc: 'Sélectionnez la matière, le thème, la durée souhaitée. Précisez le contexte si nécessaire.' },
-              { num: '03', title: 'Recevoir la leçon', desc: 'Un plan complet apparaît : objectifs, introduction, contenu structuré, activités, matériel et évaluation.' },
+              { num: '01', title: "Connaître l'enfant", desc: "Renseignez son tempérament, son niveau, ses forces et ses intérêts. L'IA adapte le contenu et les exemples à sa nature propre — jamais l'inverse." },
+              { num: '02', title: 'Choisir la discipline', desc: 'Sélectionnez la matière, le thème, la durée. Précisez si vous travaillez le corps aussi bien que l\'esprit — sport, artisanat, nature sont des disciplines à part entière.' },
+              { num: '03', title: 'Recevoir le plan', desc: 'Un plan complet et cohérent : objectifs clairs, contenu structuré, activités pratiques, évaluation par la maîtrise. Sauvegardez, ajustez, progressez.' },
             ].map((step, i) => (
               <AnimateOnScroll key={step.num} delay={i * 100} className="py-8 flex gap-8 items-start">
                 <div className="text-5xl text-gold/30 font-light flex-shrink-0 w-16" style={{fontFamily: "'Cormorant Garamond', serif"}}>{step.num}</div>
@@ -181,6 +184,48 @@ export default function HomePage() {
                   <h3 className="text-2xl font-light text-charcoal mb-2" style={{fontFamily: "'Cormorant Garamond', serif"}}>{step.title}</h3>
                   <p className="text-charcoal/60 leading-relaxed">{step.desc}</p>
                 </div>
+              </AnimateOnScroll>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* VISION — 4 piliers */}
+      <section className="py-24 px-6 bg-charcoal">
+        <div className="max-w-6xl mx-auto">
+          <AnimateOnScroll className="text-center mb-16">
+            <p className="text-gold tracking-[0.25em] text-xs uppercase mb-4">Notre vision</p>
+            <h2 className="text-4xl md:text-5xl font-light text-cream" style={{fontFamily: "'Cormorant Garamond', serif"}}>
+              Quatre principes.<br /><em>Une formation.</em>
+            </h2>
+          </AnimateOnScroll>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-stone/20">
+            {[
+              {
+                title: 'L\'individu complet',
+                desc: "Corps et esprit ne s'opposent pas — ils se complètent. Sport, arts manuels, nature et connaissance théorique forment ensemble un être capable d'agir dans le monde, pas seulement d'y réfléchir.",
+                icon: '◈',
+              },
+              {
+                title: 'Savoirs enracinés',
+                desc: "Mathématiques, philosophie, latin, histoire naturelle, géographie physique — des disciplines choisies pour leur densité réelle et leur ancrage dans la tradition intellectuelle européenne.",
+                icon: '◈',
+              },
+              {
+                title: 'L\'autonomie réelle',
+                desc: "Le but n'est pas un enfant qui obéit aux consignes, mais un enfant qui comprend le pourquoi. Chaque leçon vise à développer le jugement propre, l'initiative et la capacité à apprendre sans assistance.",
+                icon: '◈',
+              },
+              {
+                title: 'La méritocratie',
+                desc: "La progression suit la maîtrise, non le calendrier. On avance quand on sait — ni plus tôt par faveur, ni plus tard par convention. L'effort et l'excellence sont reconnus sans complaisance.",
+                icon: '◈',
+              },
+            ].map((pilier, i) => (
+              <AnimateOnScroll key={pilier.title} delay={i * 100} className="bg-charcoal p-10">
+                <div className="text-gold/40 text-2xl mb-4">{pilier.icon}</div>
+                <h3 className="text-2xl font-light text-cream mb-4" style={{fontFamily: "'Cormorant Garamond', serif"}}>{pilier.title}</h3>
+                <p className="text-cream/50 leading-relaxed text-sm">{pilier.desc}</p>
               </AnimateOnScroll>
             ))}
           </div>
@@ -198,8 +243,8 @@ export default function HomePage() {
           </AnimateOnScroll>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {[
-              { quote: "Alesia a transformé notre quotidien. Mes enfants apprennent avec une profondeur que l'école n'aurait jamais pu leur offrir.", author: "Marie", role: "Mère de trois enfants, Lyon" },
-              { quote: "Un outil qui comprend ce que signifie vraiment instruire. Pas de gadgets — de la rigueur, de la structure, de la beauté.", author: "Jean-François", role: "Père, Bordeaux" },
+              { quote: "Pour la première fois, j'ai un outil qui partage vraiment ma vision de l'éducation. Pas de compromis, pas de pédagogie molle — de l'exigence.", author: "Marie", role: "Mère de trois enfants, Lyon" },
+              { quote: "Mes fils progressent à leur rythme réel, pas au rythme du groupe. La différence est visible en quelques semaines.", author: "Jean-François", role: "Père, Bordeaux" },
             ].map((t, i) => (
               <AnimateOnScroll key={i} delay={i * 150} className="bg-cream p-8 border-l-2 border-gold">
                 <blockquote className="text-xl italic text-charcoal/80 leading-relaxed mb-6" style={{fontFamily: "'Cormorant Garamond', serif"}}>
