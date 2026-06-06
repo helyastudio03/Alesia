@@ -14,7 +14,7 @@ import { Separator } from '@/components/ui/separator'
 const SUBJECTS = [
   'Mathématiques', 'Français', 'Histoire', 'Géographie', 'Sciences',
   'Anglais', 'Arts plastiques', 'Musique', 'SVT', 'Physique-Chimie',
-  'Philosophie', 'Informatique', 'Latin', 'Espagnol'
+  'Philosophie', 'Informatique', 'Latin'
 ]
 
 const GRADE_LEVELS = [

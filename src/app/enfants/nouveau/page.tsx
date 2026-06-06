@@ -29,7 +29,7 @@ const LEARNING_STYLES = [
 const SUBJECTS_LIST = [
   'Mathématiques', 'Français', 'Histoire-Géographie', 'Sciences',
   'Anglais', 'Arts plastiques', 'Musique', 'EPS', 'Philosophie',
-  'SVT', 'Physique-Chimie', 'Informatique', 'Latin', 'Espagnol'
+  'SVT', 'Physique-Chimie', 'Informatique', 'Latin'
 ]
 
 export default function NouvelEnfantPage() {
