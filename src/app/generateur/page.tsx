@@ -12,7 +12,7 @@ import { Sparkles, BookOpen, Clock, Target, Wrench, ClipboardList, ChevronRight,
 import { Separator } from '@/components/ui/separator'
 
 const SUBJECTS = [
-  'Mathématiques', 'Français', 'Histoire', 'Géographie', 'Sciences',
+  'Mathématiques', 'Français', 'Histoire', 'Géographie',
   'Anglais', 'Arts plastiques', 'Musique', 'SVT', 'Physique-Chimie',
   'Philosophie', 'Informatique', 'Latin'
 ]

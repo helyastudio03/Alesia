@@ -27,7 +27,7 @@ const LEARNING_STYLES = [
 ]
 
 const SUBJECTS_LIST = [
-  'Mathématiques', 'Français', 'Histoire-Géographie', 'Sciences',
+  'Mathématiques', 'Français', 'Histoire-Géographie',
   'Anglais', 'Arts plastiques', 'Musique', 'EPS', 'Philosophie',
   'SVT', 'Physique-Chimie', 'Informatique', 'Latin'
 ]
