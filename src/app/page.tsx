@@ -288,6 +288,8 @@ export default function HomePage() {
               {[
                 { href: '/', label: 'Accueil' },
                 { href: '/methode', label: 'Méthode' },
+                { href: '/programme', label: 'Programme' },
+                { href: '/exemples', label: 'Exemples' },
                 { href: '/enfants', label: 'Enfants' },
                 { href: '/lecons', label: 'Leçons' },
                 { href: '/generateur', label: 'Générateur' },
