@@ -27,6 +27,8 @@ const DURATIONS = ['30', '45', '60', '90', '120']
 
 type LessonResult = {
   title: string
+  domain?: string
+  age?: string
   objectives: string[]
   introduction: string
   content: string
@@ -243,6 +245,13 @@ export default function GenerateurPage() {
                       {form.duration} min
                     </Badge>
                   </div>
+                  {(lesson.domain || lesson.age) && (
+                    <div className="flex items-center gap-2 mb-1 text-xs text-gray-500">
+                      {lesson.domain && <span className="uppercase tracking-wide">{lesson.domain}</span>}
+                      {lesson.domain && lesson.age && <span>·</span>}
+                      {lesson.age && <span className="italic">{lesson.age}</span>}
+                    </div>
+                  )}
                   <CardTitle className="text-xl">{lesson.title}</CardTitle>
                 </CardHeader>
               </Card>
