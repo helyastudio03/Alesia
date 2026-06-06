@@ -6,6 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/textarea'
 import { Input } from '@/components/ui/input'
 import { parsePartialJSON } from '@/lib/partial-json'
+import { DOMAINS, modulesForLevel, type Module } from '@/lib/curriculum'
 
 const SUBJECTS = [
   'Mathématiques', 'Français', 'Histoire', 'Géographie',
@@ -45,7 +46,11 @@ export default function GenerateurPage() {
     learningStyle: '',
     interests: '',
     additionalContext: '',
+    domainHint: '',
+    ageHint: '',
   })
+  const [mode, setMode] = useState<'programme' | 'libre'>('programme')
+  const [selectedModuleId, setSelectedModuleId] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
   const [streaming, setStreaming] = useState(false)
   const [lesson, setLesson] = useState<Partial<LessonResult> | null>(null)
@@ -79,6 +84,26 @@ export default function GenerateurPage() {
   }
 
   const printLesson = () => window.print()
+
+  // Sélection d'un module du tronc commun : on remplit les paramètres
+  // et on impose le domaine + l'âge pour garantir la cohérence.
+  const selectModule = (m: Module) => {
+    setSelectedModuleId(m.id)
+    setForm(f => ({
+      ...f,
+      subject: m.subject,
+      topic: m.topic,
+      domainHint: m.domain,
+      ageHint: m.age,
+    }))
+  }
+
+  const switchMode = (next: 'programme' | 'libre') => {
+    setMode(next)
+    setSelectedModuleId(null)
+    // En mode libre, on n'impose ni domaine ni âge.
+    setForm(f => ({ ...f, subject: '', topic: '', domainHint: '', ageHint: '' }))
+  }
 
   const handleGenerate = async () => {
     if (!form.subject || !form.gradeLevel || !form.topic) return
@@ -151,40 +176,133 @@ export default function GenerateurPage() {
           {/* — Colonne formulaire */}
           <div className="lg:col-span-2 space-y-8">
             <div>
-              <p className="text-gold tracking-[0.25em] text-xs uppercase mb-6">Paramètres</p>
+              {/* Niveau de l'enfant — porte d'entrée */}
+              <FieldGroup label="Niveau de l'enfant *" className="mb-6">
+                <Select
+                  value={form.gradeLevel}
+                  onValueChange={v => { setForm({ ...form, gradeLevel: v }); setSelectedModuleId(null) }}
+                >
+                  <SelectTrigger className="border-stone/40 bg-cream text-charcoal rounded-none h-10 text-sm focus:ring-0 focus:border-charcoal">
+                    <SelectValue placeholder="Choisir le niveau" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {GRADE_LEVELS.map(g => <SelectItem key={g} value={g}>{g}</SelectItem>)}
+                  </SelectContent>
+                </Select>
+              </FieldGroup>
 
-              {/* Matière + Niveau */}
-              <div className="grid grid-cols-2 gap-4 mb-4">
-                <FieldGroup label="Matière *">
-                  <Select value={form.subject} onValueChange={v => setForm({ ...form, subject: v })}>
-                    <SelectTrigger className="border-stone/40 bg-cream text-charcoal rounded-none h-10 text-sm focus:ring-0 focus:border-charcoal">
-                      <SelectValue placeholder="Choisir" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {SUBJECTS.map(s => <SelectItem key={s} value={s}>{s}</SelectItem>)}
-                    </SelectContent>
-                  </Select>
-                </FieldGroup>
-                <FieldGroup label="Niveau *">
-                  <Select value={form.gradeLevel} onValueChange={v => setForm({ ...form, gradeLevel: v })}>
-                    <SelectTrigger className="border-stone/40 bg-cream text-charcoal rounded-none h-10 text-sm focus:ring-0 focus:border-charcoal">
-                      <SelectValue placeholder="Choisir" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {GRADE_LEVELS.map(g => <SelectItem key={g} value={g}>{g}</SelectItem>)}
-                    </SelectContent>
-                  </Select>
-                </FieldGroup>
+              {/* Bascule de mode */}
+              <div className="flex border border-stone/30 mb-6">
+                <button
+                  onClick={() => switchMode('programme')}
+                  className={`flex-1 py-3 text-xs tracking-widest uppercase transition-colors ${
+                    mode === 'programme' ? 'bg-forest text-cream' : 'text-charcoal/50 hover:text-charcoal'
+                  }`}
+                >
+                  Le programme
+                </button>
+                <button
+                  onClick={() => switchMode('libre')}
+                  className={`flex-1 py-3 text-xs tracking-widest uppercase transition-colors border-l border-stone/30 ${
+                    mode === 'libre' ? 'bg-forest text-cream' : 'text-charcoal/50 hover:text-charcoal'
+                  }`}
+                >
+                  Cours personnalisé
+                </button>
               </div>
 
-              <FieldGroup label="Sujet / Thème *" className="mb-4">
-                <Input
-                  value={form.topic}
-                  onChange={e => setForm({ ...form, topic: e.target.value })}
-                  placeholder="Ex : La Révolution française, les fractions…"
-                  className="border-stone/40 bg-cream text-charcoal rounded-none h-10 text-sm focus-visible:ring-0 focus-visible:border-charcoal"
-                />
-              </FieldGroup>
+              {/* MODE PROGRAMME — tronc commun structuré */}
+              {mode === 'programme' && (
+                <div className="mb-2">
+                  {!form.gradeLevel && (
+                    <p className="text-charcoal/40 text-sm italic leading-relaxed" style={GARAMOND}>
+                      Choisissez d&apos;abord le niveau de l&apos;enfant pour découvrir
+                      les modules du tronc commun qui lui correspondent.
+                    </p>
+                  )}
+                  {form.gradeLevel && (() => {
+                    const grouped = modulesForLevel(form.gradeLevel)
+                    const hasAny = DOMAINS.some(d => grouped[d].length > 0)
+                    if (!hasAny) {
+                      return (
+                        <p className="text-charcoal/40 text-sm italic leading-relaxed" style={GARAMOND}>
+                          Aucun module du tronc commun n&apos;est encore défini pour ce niveau.
+                          Passez au cours personnalisé pour composer librement.
+                        </p>
+                      )
+                    }
+                    return (
+                      <div className="space-y-6">
+                        {DOMAINS.map(domain => {
+                          const mods = grouped[domain]
+                          if (mods.length === 0) return null
+                          return (
+                            <div key={domain}>
+                              <p className="text-gold tracking-[0.2em] text-xs uppercase mb-3">{domain}</p>
+                              <div className="space-y-2">
+                                {mods.map(m => {
+                                  const active = selectedModuleId === m.id
+                                  return (
+                                    <button
+                                      key={m.id}
+                                      onClick={() => selectModule(m)}
+                                      className={`w-full text-left p-3 border transition-colors ${
+                                        active
+                                          ? 'border-charcoal bg-parchment'
+                                          : 'border-stone/25 hover:border-stone/60'
+                                      }`}
+                                    >
+                                      <div className="flex items-baseline justify-between gap-2">
+                                        <span className="text-charcoal text-sm" style={GARAMOND}>
+                                          {m.title}
+                                        </span>
+                                        <span className="text-stone/60 text-[0.65rem] uppercase tracking-wider flex-shrink-0">
+                                          {m.subject}
+                                        </span>
+                                      </div>
+                                      <p className="text-charcoal/45 text-xs mt-1 leading-snug">{m.topic}</p>
+                                    </button>
+                                  )
+                                })}
+                              </div>
+                            </div>
+                          )
+                        })}
+                      </div>
+                    )
+                  })()}
+                </div>
+              )}
+
+              {/* MODE LIBRE — cours personnalisé */}
+              {mode === 'libre' && (
+                <div>
+                  <p className="text-charcoal/45 text-xs italic mb-5 leading-relaxed">
+                    En complément du programme : composez une leçon sur un sujet de votre choix.
+                    Elle sera rattachée au domaine et à l&apos;âge cohérents.
+                  </p>
+                  <FieldGroup label="Matière *" className="mb-4">
+                    <Select value={form.subject} onValueChange={v => setForm({ ...form, subject: v })}>
+                      <SelectTrigger className="border-stone/40 bg-cream text-charcoal rounded-none h-10 text-sm focus:ring-0 focus:border-charcoal">
+                        <SelectValue placeholder="Choisir une matière" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {SUBJECTS.map(s => <SelectItem key={s} value={s}>{s}</SelectItem>)}
+                      </SelectContent>
+                    </Select>
+                  </FieldGroup>
+                  <FieldGroup label="Sujet / Thème *">
+                    <Input
+                      value={form.topic}
+                      onChange={e => setForm({ ...form, topic: e.target.value })}
+                      placeholder="Ex : La Révolution française, les fractions…"
+                      className="border-stone/40 bg-cream text-charcoal rounded-none h-10 text-sm focus-visible:ring-0 focus-visible:border-charcoal"
+                    />
+                  </FieldGroup>
+                </div>
+              )}
+
+              <div className="my-6 border-t border-stone/20" />
 
               <FieldGroup label="Durée" className="mb-4">
                 <Select value={form.duration} onValueChange={v => setForm({ ...form, duration: v })}>
@@ -257,7 +375,7 @@ export default function GenerateurPage() {
                   La leçon apparaîtra ici
                 </p>
                 <p className="text-charcoal/30 text-xs mt-2 text-center max-w-xs leading-relaxed">
-                  Renseignez la matière, le niveau et le sujet, puis composez.
+                  Choisissez le niveau, puis un module du programme — ou composez un cours personnalisé.
                 </p>
               </div>
             )}

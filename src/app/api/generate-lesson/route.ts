@@ -86,7 +86,7 @@ const LESSON_SCHEMA = {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
-    const { subject, gradeLevel, topic, duration, learningStyle, interests, additionalContext } = body
+    const { subject, gradeLevel, topic, duration, learningStyle, interests, additionalContext, domainHint, ageHint } = body
 
     if (!subject || !gradeLevel || !topic) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
@@ -100,8 +100,13 @@ export async function POST(req: NextRequest) {
 ${learningStyle ? `- Style d'apprentissage : ${learningStyle}` : ''}
 ${interests ? `- Centres d'intérêt de l'enfant : ${interests}` : ''}
 ${additionalContext ? `- Contexte supplémentaire : ${additionalContext}` : ''}
+${domainHint ? `- Domaine du curriculum (imposé) : ${domainHint}` : ''}
+${ageHint ? `- Âge de progression (imposé) : ${ageHint}` : ''}
 
-Rattache la leçon au bon domaine du curriculum et au bon âge de progression. ${interests ? `Intègre les centres d'intérêt de l'enfant (${interests}) dans les exemples et activités.` : ''}`
+${domainHint || ageHint
+  ? `Cette leçon appartient au tronc commun structuré : respecte impérativement le domaine et l'âge indiqués, et veille à la cohérence de l'exigence avec le niveau scolaire.`
+  : `Rattache la leçon au bon domaine du curriculum et au bon âge de progression. Si le sujet demandé semble incohérent avec le niveau scolaire, adapte-le avec discernement pour rester pédagogiquement juste.`}
+${interests ? `Intègre les centres d'intérêt de l'enfant (${interests}) dans les exemples et activités.` : ''}`
 
     const anthropicStream = await client.messages.create({
       model: 'claude-opus-4-8',
