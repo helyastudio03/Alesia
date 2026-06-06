@@ -38,6 +38,13 @@ export async function Navbar() {
             >
               Méthode
             </Link>
+            <Link
+              href="/exemples"
+              style={{ color: '#1c1c1c', fontSize: '0.75rem', letterSpacing: '0.1em' }}
+              className="px-3 py-2 uppercase hover:underline transition-all"
+            >
+              Exemples
+            </Link>
             {user && (
               <>
                 <Link
