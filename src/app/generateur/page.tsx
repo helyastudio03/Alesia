@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/textarea'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
-import { Sparkles, BookOpen, Clock, Target, Wrench, ClipboardList, ChevronRight, Loader2 } from 'lucide-react'
+import { Sparkles, BookOpen, Clock, Target, Wrench, ClipboardList, ChevronRight, Loader2, Copy, Printer, Check } from 'lucide-react'
 import { Separator } from '@/components/ui/separator'
 import { parsePartialJSON } from '@/lib/partial-json'
 
@@ -49,6 +49,36 @@ export default function GenerateurPage() {
     interests: '',
     additionalContext: '',
   })
+  const [copied, setCopied] = useState(false)
+
+  const copyLesson = async () => {
+    if (!lesson) return
+    const lines: string[] = []
+    if (lesson.title) lines.push(`# ${lesson.title}`)
+    if (lesson.domain || lesson.age) lines.push(`${lesson.domain ?? ''} · ${lesson.age ?? ''}`.trim())
+    lines.push('')
+    if (lesson.objectives?.length) {
+      lines.push('## Objectifs')
+      lesson.objectives.forEach(o => lines.push(`- ${o}`))
+      lines.push('')
+    }
+    if (lesson.introduction) lines.push(`## Introduction\n${lesson.introduction}\n`)
+    if (lesson.content) lines.push(`## Contenu\n${lesson.content}\n`)
+    if (lesson.activities?.length) {
+      lines.push('## Activités')
+      lesson.activities.forEach((a, i) => lines.push(`${i + 1}. ${a}`))
+      lines.push('')
+    }
+    if (lesson.materials?.length) lines.push(`## Matériel\n${lesson.materials.join(', ')}\n`)
+    if (lesson.assessment) lines.push(`## Évaluation\n${lesson.assessment}\n`)
+    if (lesson.tips) lines.push(`## Conseils\n${lesson.tips}`)
+    await navigator.clipboard.writeText(lines.join('\n'))
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
+
+  const printLesson = () => window.print()
+
   const [loading, setLoading] = useState(false)
   const [streaming, setStreaming] = useState(false)
   const [lesson, setLesson] = useState<Partial<LessonResult> | null>(null)
@@ -256,16 +286,47 @@ export default function GenerateurPage() {
           )}
 
           {lesson && (
-            <div className="space-y-4">
+            <div id="lesson-print" className="space-y-4">
               <Card className="border-violet-200 bg-gradient-to-br from-violet-50 to-purple-50">
                 <CardHeader>
-                  <div className="flex items-center gap-2 mb-1">
-                    <Badge className="bg-violet-600">{form.subject}</Badge>
-                    <Badge variant="outline">{form.gradeLevel}</Badge>
-                    <Badge variant="outline" className="flex items-center gap-1">
-                      <Clock className="h-3 w-3" />
-                      {form.duration} min
-                    </Badge>
+                  <div className="flex items-center justify-between gap-2 mb-1 no-print">
+                    <div className="flex items-center gap-2">
+                      <Badge className="bg-violet-600">{form.subject}</Badge>
+                      <Badge variant="outline">{form.gradeLevel}</Badge>
+                      <Badge variant="outline" className="flex items-center gap-1">
+                        <Clock className="h-3 w-3" />
+                        {form.duration} min
+                      </Badge>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={copyLesson}
+                        className="h-8 px-2 text-gray-500 hover:text-gray-800"
+                        title="Copier en Markdown"
+                      >
+                        {copied ? <Check className="h-4 w-4 text-green-600" /> : <Copy className="h-4 w-4" />}
+                        <span className="ml-1 text-xs">{copied ? 'Copié !' : 'Copier'}</span>
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={printLesson}
+                        className="h-8 px-2 text-gray-500 hover:text-gray-800"
+                        title="Imprimer / Enregistrer en PDF"
+                      >
+                        <Printer className="h-4 w-4" />
+                        <span className="ml-1 text-xs">Imprimer</span>
+                      </Button>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2 print-only" style={{ display: 'none' }}>
+                    <span className="font-semibold">{form.subject}</span>
+                    <span>·</span>
+                    <span>{form.gradeLevel}</span>
+                    <span>·</span>
+                    <span>{form.duration} min</span>
                   </div>
                   {(lesson.domain || lesson.age) && (
                     <div className="flex items-center gap-2 mb-1 text-xs text-gray-500">

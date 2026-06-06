@@ -91,3 +91,37 @@ h1, h2, h3, h4, .font-serif {
 .animate-delay-200 { animation-delay: 0.2s; }
 .animate-delay-300 { animation-delay: 0.3s; }
 .animate-delay-400 { animation-delay: 0.4s; }
+
+@media print {
+  /* Masquer tout sauf la leçon */
+  body > * { display: none !important; }
+  #lesson-print,
+  #lesson-print * { display: revert !important; }
+
+  /* Masquer les boutons et la navbar dans l'impression */
+  .no-print { display: none !important; }
+
+  /* Afficher les métadonnées print-only */
+  .print-only { display: flex !important; }
+
+  #lesson-print {
+    display: block !important;
+    padding: 2rem;
+    font-size: 11pt;
+    color: #000;
+  }
+
+  /* Forcer les couleurs en noir sur blanc */
+  * {
+    background: white !important;
+    color: black !important;
+    box-shadow: none !important;
+    border-color: #ccc !important;
+  }
+
+  /* Éviter les coupures de page au milieu d'une carte */
+  .space-y-4 > * {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+}
