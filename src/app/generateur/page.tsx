@@ -54,23 +54,28 @@ function GenerateurInner() {
   const [selectedModuleId, setSelectedModuleId] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
 
-  // Pré-remplir depuis un lien ?module=id (venant de /programme).
+  // Pré-remplir depuis ?module=id (venant de /programme) ou ?gradeLevel= (venant de /enfants).
   const searchParams = useSearchParams()
   useEffect(() => {
     const moduleId = searchParams.get('module')
-    if (!moduleId) return
-    const m = CURRICULUM.find(x => x.id === moduleId)
-    if (!m) return
-    setMode('programme')
-    setSelectedModuleId(m.id)
-    setForm(f => ({
-      ...f,
-      gradeLevel: f.gradeLevel || m.levels[0],
-      subject: m.subject,
-      topic: m.topic,
-      domainHint: m.domain,
-      ageHint: m.age,
-    }))
+    const gradeLevel = searchParams.get('gradeLevel')
+
+    if (moduleId) {
+      const m = CURRICULUM.find(x => x.id === moduleId)
+      if (!m) return
+      setMode('programme')
+      setSelectedModuleId(m.id)
+      setForm(f => ({
+        ...f,
+        gradeLevel: f.gradeLevel || m.levels[0],
+        subject: m.subject,
+        topic: m.topic,
+        domainHint: m.domain,
+        ageHint: m.age,
+      }))
+    } else if (gradeLevel && LEVELS.includes(gradeLevel as never)) {
+      setForm(f => ({ ...f, gradeLevel }))
+    }
   }, [searchParams])
   const [streaming, setStreaming] = useState(false)
   const [lesson, setLesson] = useState<Partial<LessonResult> | null>(null)
@@ -159,7 +164,11 @@ function GenerateurInner() {
     }
   }
 
-  const canGenerate = form.subject && form.gradeLevel && form.topic && !loading
+  const canGenerate = !loading && form.gradeLevel && (
+    mode === 'programme'
+      ? !!selectedModuleId
+      : !!(form.subject && form.topic)
+  )
 
   return (
     <div className="bg-cream">
@@ -242,17 +251,28 @@ function GenerateurInner() {
                   )}
                   {form.gradeLevel && (() => {
                     const grouped = modulesForLevel(form.gradeLevel)
-                    const hasAny = DOMAINS.some(d => grouped[d].length > 0)
-                    if (!hasAny) {
+                    const total = DOMAINS.reduce((n, d) => n + grouped[d].length, 0)
+                    if (total === 0) {
                       return (
-                        <p className="text-charcoal/40 text-sm italic leading-relaxed" style={GARAMOND}>
-                          Aucun module du tronc commun n&apos;est encore défini pour ce niveau.
-                          Passez au cours personnalisé pour composer librement.
-                        </p>
+                        <div className="border border-dashed border-stone/30 p-5 text-center">
+                          <p className="text-charcoal/45 text-sm italic leading-relaxed mb-3" style={GARAMOND}>
+                            Le programme ne contient pas encore de modules pour ce niveau.
+                          </p>
+                          <button
+                            onClick={() => switchMode('libre')}
+                            className="text-xs text-forest underline underline-offset-2 hover:text-charcoal transition-colors"
+                          >
+                            Passer au cours personnalisé →
+                          </button>
+                        </div>
                       )
                     }
                     return (
                       <div className="space-y-6">
+                        <p className="text-charcoal/35 text-xs">
+                          {total} module{total > 1 ? 's' : ''} disponible{total > 1 ? 's' : ''} pour ce niveau
+                          {selectedModuleId ? ' · 1 sélectionné' : ' · Cliquez pour sélectionner'}
+                        </p>
                         {DOMAINS.map(domain => {
                           const mods = grouped[domain]
                           if (mods.length === 0) return null
@@ -281,6 +301,11 @@ function GenerateurInner() {
                                         </span>
                                       </div>
                                       <p className="text-charcoal/45 text-xs mt-1 leading-snug">{m.topic}</p>
+                                      {active && (
+                                        <p className="text-gold/70 text-[0.65rem] mt-1.5 tracking-wider uppercase">
+                                          Sélectionné ✓
+                                        </p>
+                                      )}
                                     </button>
                                   )
                                 })}
@@ -370,6 +395,19 @@ function GenerateurInner() {
                 />
               </FieldGroup>
             </div>
+
+            {/* Aide contextuelle selon l'état */}
+            {!loading && !canGenerate && (
+              <p className="text-charcoal/35 text-xs italic text-center -mb-2" style={GARAMOND}>
+                {!form.gradeLevel
+                  ? 'Choisissez le niveau pour commencer.'
+                  : mode === 'programme' && !selectedModuleId
+                  ? 'Sélectionnez un module dans le programme.'
+                  : mode === 'libre' && !form.topic
+                  ? 'Renseignez le sujet de la leçon.'
+                  : ''}
+              </p>
+            )}
 
             <button
               onClick={handleGenerate}
