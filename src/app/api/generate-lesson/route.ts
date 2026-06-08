@@ -83,13 +83,24 @@ const LESSON_SCHEMA = {
   additionalProperties: false,
 } as const
 
+// Réponse d'erreur normalisée : un code stable que le client traduit en
+// message clair pour le parent.
+function errorResponse(code: string, status: number) {
+  return NextResponse.json({ error: { code } }, { status })
+}
+
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
     const { subject, gradeLevel, topic, duration, learningStyle, interests, additionalContext, domainHint, ageHint } = body
 
     if (!subject || !gradeLevel || !topic) {
-      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
+      return errorResponse('missing_fields', 400)
+    }
+
+    // Sans clé API, inutile d'appeler le service : on le signale clairement.
+    if (!process.env.ANTHROPIC_API_KEY) {
+      return errorResponse('no_api_key', 503)
     }
 
     const userPrompt = `Conçois un plan de leçon Alesia avec ces paramètres :
@@ -148,6 +159,16 @@ ${interests ? `Intègre les centres d'intérêt de l'enfant (${interests}) dans 
     })
   } catch (error) {
     console.error('Error generating lesson:', error)
-    return NextResponse.json({ error: 'Failed to generate lesson' }, { status: 500 })
+    // Traduit les erreurs du service en codes stables pour le client.
+    if (error instanceof Anthropic.APIError) {
+      if (error.status === 401) return errorResponse('invalid_api_key', 401)
+      if (error.status === 429) return errorResponse('rate_limited', 429)
+      if (error.status === 529 || error.status === 503) return errorResponse('overloaded', 503)
+      if (typeof error.status === 'number' && error.status >= 500) return errorResponse('upstream', 502)
+    }
+    if (error instanceof Anthropic.APIConnectionError) {
+      return errorResponse('connection', 502)
+    }
+    return errorResponse('unknown', 500)
   }
 }

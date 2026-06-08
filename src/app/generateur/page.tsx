@@ -41,6 +41,19 @@ type LessonResult = {
 
 const GARAMOND = { fontFamily: "'Cormorant Garamond', serif" }
 
+// Messages clairs pour le parent selon le code d'erreur renvoyé par l'API.
+const ERROR_MESSAGES: Record<string, string> = {
+  no_api_key: "Le service de composition n'est pas encore configuré (clé API manquante). Cette fonction sera active une fois la configuration terminée.",
+  invalid_api_key: "La clé API configurée n'est pas valide. Vérifiez la configuration du service.",
+  rate_limited: 'Trop de demandes en peu de temps. Patientez quelques instants avant de réessayer.',
+  overloaded: 'Le service est momentanément surchargé. Réessayez dans un instant.',
+  upstream: 'Le service de composition a rencontré une erreur. Réessayez dans un instant.',
+  connection: 'La connexion a été interrompue. Vérifiez votre accès à Internet, puis réessayez.',
+  empty: "La leçon n'a pas pu être composée. Réessayez, en précisant éventuellement le sujet.",
+  missing_fields: 'Il manque des informations : choisissez un niveau et un sujet ou un module.',
+  unknown: 'Une erreur inattendue est survenue. Réessayez dans un instant.',
+}
+
 function GenerateurInner() {
   const [form, setForm] = useState({
     subject: '',
@@ -161,7 +174,17 @@ function GenerateurInner() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
       })
-      if (!response.ok || !response.body) throw new Error()
+      if (!response.ok || !response.body) {
+        // Tente de lire le code d'erreur normalisé renvoyé par l'API.
+        let code = 'unknown'
+        try {
+          const data = await response.json()
+          if (data?.error?.code) code = data.error.code
+        } catch { /* corps non-JSON */ }
+        setError(ERROR_MESSAGES[code] ?? ERROR_MESSAGES.unknown)
+        setLesson(null)
+        return
+      }
       const reader = response.body.getReader()
       const decoder = new TextDecoder()
       let accumulated = ''
@@ -174,8 +197,10 @@ function GenerateurInner() {
       }
       const final = parsePartialJSON<LessonResult>(accumulated)
       if (final) setLesson(final)
+      else setError(ERROR_MESSAGES.empty)
     } catch {
-      setError('Une erreur est survenue. Vérifiez votre clé API Anthropic.')
+      // Échec réseau côté navigateur (hors-ligne, requête interrompue…).
+      setError(ERROR_MESSAGES.connection)
       setLesson(null)
     } finally {
       setLoading(false)
@@ -478,9 +503,16 @@ function GenerateurInner() {
             </button>
 
             {error && (
-              <p className="text-sm text-burgundy border-l-2 border-burgundy pl-4 leading-relaxed">
-                {error}
-              </p>
+              <div className="border-l-2 border-burgundy pl-4">
+                <p className="text-sm text-burgundy leading-relaxed mb-3">{error}</p>
+                <button
+                  onClick={handleGenerate}
+                  disabled={!canGenerate}
+                  className="text-xs text-burgundy tracking-widest uppercase hover:text-charcoal transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                >
+                  Réessayer →
+                </button>
+              </div>
             )}
           </div>
 

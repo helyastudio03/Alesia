@@ -259,7 +259,7 @@ export default function HomePage() {
             ].map((t, i) => (
               <AnimateOnScroll key={i} delay={i * 150} className="bg-cream p-8 border-l-2 border-gold">
                 <blockquote className="text-xl italic text-charcoal/80 leading-relaxed mb-6" style={{fontFamily: "'Cormorant Garamond', serif"}}>
-                  « {t.quote} »
+                  «&nbsp;{t.quote}&nbsp;»
                 </blockquote>
                 <div>
                   <p className="font-medium text-charcoal text-sm">{t.author}</p>
