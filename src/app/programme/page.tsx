@@ -91,9 +91,13 @@ export default function ProgrammePage() {
                       <p className="text-gold tracking-[0.2em] text-xs uppercase mb-4">{age}</p>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-stone/15">
                         {mods.map(m => (
-                          <div key={m.id} className="bg-cream p-5">
+                          <Link
+                            key={m.id}
+                            href={`/generateur?module=${m.id}`}
+                            className="block bg-cream p-5 hover:bg-parchment transition-colors group"
+                          >
                             <div className="flex items-baseline justify-between gap-3 mb-1">
-                              <h3 className="text-xl font-light text-charcoal" style={GARAMOND}>
+                              <h3 className="text-xl font-light text-charcoal group-hover:text-forest transition-colors" style={GARAMOND}>
                                 {m.title}
                               </h3>
                               <span className="text-stone/60 text-[0.65rem] uppercase tracking-wider flex-shrink-0">
@@ -101,10 +105,15 @@ export default function ProgrammePage() {
                               </span>
                             </div>
                             <p className="text-charcoal/55 text-sm leading-snug mb-3">{m.topic}</p>
-                            <p className="text-stone/50 text-[0.7rem] tracking-wide">
-                              {m.levels[0]} – {m.levels[m.levels.length - 1]}
-                            </p>
-                          </div>
+                            <div className="flex items-center justify-between">
+                              <p className="text-stone/50 text-[0.7rem] tracking-wide">
+                                {m.levels[0]} – {m.levels[m.levels.length - 1]}
+                              </p>
+                              <span className="text-gold/0 group-hover:text-gold/60 text-xs transition-colors tracking-widest uppercase">
+                                Composer →
+                              </span>
+                            </div>
+                          </Link>
                         ))}
                       </div>
                     </AnimateOnScroll>

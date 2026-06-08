@@ -1,12 +1,13 @@
 'use client'
 
 import Image from 'next/image'
-import { useState } from 'react'
+import { useState, useEffect, Suspense } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
 import { Input } from '@/components/ui/input'
 import { parsePartialJSON } from '@/lib/partial-json'
-import { DOMAINS, modulesForLevel, type Module } from '@/lib/curriculum'
+import { DOMAINS, LEVELS, modulesForLevel, CURRICULUM, type Module } from '@/lib/curriculum'
 
 const SUBJECTS = [
   'Mathématiques', 'Français', 'Histoire', 'Géographie',
@@ -37,7 +38,7 @@ type LessonResult = {
 
 const GARAMOND = { fontFamily: "'Cormorant Garamond', serif" }
 
-export default function GenerateurPage() {
+function GenerateurInner() {
   const [form, setForm] = useState({
     subject: '',
     gradeLevel: '',
@@ -52,6 +53,25 @@ export default function GenerateurPage() {
   const [mode, setMode] = useState<'programme' | 'libre'>('programme')
   const [selectedModuleId, setSelectedModuleId] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
+
+  // Pré-remplir depuis un lien ?module=id (venant de /programme).
+  const searchParams = useSearchParams()
+  useEffect(() => {
+    const moduleId = searchParams.get('module')
+    if (!moduleId) return
+    const m = CURRICULUM.find(x => x.id === moduleId)
+    if (!m) return
+    setMode('programme')
+    setSelectedModuleId(m.id)
+    setForm(f => ({
+      ...f,
+      gradeLevel: f.gradeLevel || m.levels[0],
+      subject: m.subject,
+      topic: m.topic,
+      domainHint: m.domain,
+      ageHint: m.age,
+    }))
+  }, [searchParams])
   const [streaming, setStreaming] = useState(false)
   const [lesson, setLesson] = useState<Partial<LessonResult> | null>(null)
   const [error, setError] = useState<string | null>(null)
@@ -534,6 +554,14 @@ export default function GenerateurPage() {
         </div>
       </section>
     </div>
+  )
+}
+
+export default function GenerateurPage() {
+  return (
+    <Suspense fallback={<div className="bg-cream min-h-screen" />}>
+      <GenerateurInner />
+    </Suspense>
   )
 }
 
