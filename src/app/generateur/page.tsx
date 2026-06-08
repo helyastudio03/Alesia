@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import Link from 'next/link'
 import { useState, useEffect, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
@@ -8,6 +9,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Input } from '@/components/ui/input'
 import { parsePartialJSON } from '@/lib/partial-json'
 import { DOMAINS, LEVELS, modulesForLevel, CURRICULUM, type Module } from '@/lib/curriculum'
+import { getChild, type Child } from '@/lib/children'
 
 const SUBJECTS = [
   'Mathématiques', 'Français', 'Histoire', 'Géographie',
@@ -53,12 +55,28 @@ function GenerateurInner() {
   const [mode, setMode] = useState<'programme' | 'libre'>('programme')
   const [selectedModuleId, setSelectedModuleId] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
+  const [activeChild, setActiveChild] = useState<Child | null>(null)
 
-  // Pré-remplir depuis ?module=id (venant de /programme) ou ?gradeLevel= (venant de /enfants).
+  // Pré-remplir depuis l'URL :
+  //  ?child=id    → contexte enfant (niveau, style, intérêts) venant de /enfants
+  //  ?module=id   → module du tronc commun venant de /programme
+  //  ?gradeLevel= → niveau seul (rétro-compatible)
   const searchParams = useSearchParams()
   useEffect(() => {
+    const childId = searchParams.get('child')
     const moduleId = searchParams.get('module')
     const gradeLevel = searchParams.get('gradeLevel')
+
+    const child = childId ? getChild(childId) : undefined
+    if (child) {
+      setActiveChild(child)
+      setForm(f => ({
+        ...f,
+        gradeLevel: child.grade_level,
+        learningStyle: child.learning_style,
+        interests: f.interests || child.interests.join(', '),
+      }))
+    }
 
     if (moduleId) {
       const m = CURRICULUM.find(x => x.id === moduleId)
@@ -67,13 +85,13 @@ function GenerateurInner() {
       setSelectedModuleId(m.id)
       setForm(f => ({
         ...f,
-        gradeLevel: f.gradeLevel || m.levels[0],
+        gradeLevel: child?.grade_level || f.gradeLevel || m.levels[0],
         subject: m.subject,
         topic: m.topic,
         domainHint: m.domain,
         ageHint: m.age,
       }))
-    } else if (gradeLevel && LEVELS.includes(gradeLevel as never)) {
+    } else if (!child && gradeLevel && LEVELS.includes(gradeLevel as never)) {
       setForm(f => ({ ...f, gradeLevel }))
     }
   }, [searchParams])
@@ -197,6 +215,30 @@ function GenerateurInner() {
           </p>
         </div>
       </section>
+
+      {/* Bandeau contextuel — composition pour un enfant précis */}
+      {activeChild && (
+        <div className="bg-forest/5 border-b border-stone/15 no-print">
+          <div className="max-w-7xl mx-auto px-4 md:px-6 py-4 flex flex-wrap items-center justify-between gap-3">
+            <p className="text-charcoal/70 text-sm" style={GARAMOND}>
+              Vous composez pour{' '}
+              <Link
+                href={`/enfants/${activeChild.id}`}
+                className="text-forest font-medium underline underline-offset-2 hover:text-charcoal transition-colors"
+              >
+                {activeChild.first_name}
+              </Link>
+              {' '}· {activeChild.grade_level} · niveau et centres d&apos;intérêt pré-remplis.
+            </p>
+            <button
+              onClick={() => setActiveChild(null)}
+              className="text-stone/60 text-xs tracking-widest uppercase hover:text-charcoal transition-colors flex-shrink-0"
+            >
+              Retirer ✕
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* FORMULAIRE + RÉSULTAT */}
       <section className="py-10 md:py-16 px-4 md:px-6">

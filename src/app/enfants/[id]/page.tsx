@@ -1,56 +1,17 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { AnimateOnScroll } from '@/components/animate-on-scroll'
-import { DOMAINS, CURRICULUM, type Domain } from '@/lib/curriculum'
+import { CURRICULUM, type Domain } from '@/lib/curriculum'
+import { getChild, getAge, LEARNING_STYLE_LABELS } from '@/lib/children'
 import { notFound } from 'next/navigation'
 
 const GARAMOND = { fontFamily: "'Cormorant Garamond', serif" }
-
-// Données mock — seront remplacées par Supabase.
-const MOCK_CHILDREN = [
-  {
-    id: '1',
-    first_name: 'Emma',
-    birth_date: '2015-03-15',
-    grade_level: 'CE2',
-    learning_style: 'visuel',
-    domains: ['Le Verbe', 'Le Nombre & les Formes', 'Le Monde'] as Domain[],
-    interests: ['Sciences', 'Dessin', 'Nature'],
-    notes: 'Excellente mémoire, très attirée par les sciences naturelles. Courtes séances recommandées.',
-  },
-  {
-    id: '2',
-    first_name: 'Lucas',
-    birth_date: '2012-07-22',
-    grade_level: '5ème',
-    learning_style: 'kinesthesique',
-    domains: ['Le Monde', 'Le Corps & la Main', 'Le Nombre & les Formes'] as Domain[],
-    interests: ['Histoire', 'Musique', 'Sport'],
-    notes: '',
-  },
-]
-
-const LEARNING_STYLE_LABELS: Record<string, string> = {
-  visuel: 'Visuel',
-  auditif: 'Auditif',
-  kinesthesique: 'Kinesthésique',
-  lecture: 'Lecture',
-}
 
 const CHIFFRES: Record<Domain, string> = {
   'Le Verbe': 'I',
   'Le Nombre & les Formes': 'II',
   'Le Monde': 'III',
   'Le Corps & la Main': 'IV',
-}
-
-function getAge(birthDate: string) {
-  const today = new Date()
-  const birth = new Date(birthDate)
-  let age = today.getFullYear() - birth.getFullYear()
-  const m = today.getMonth() - birth.getMonth()
-  if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) age--
-  return age
 }
 
 // Modules suggérés : croisement niveau × domaines en travail, limités à 6.
@@ -62,7 +23,7 @@ function modulesForChild(gradeLevel: string, domains: Domain[]) {
 
 export default async function EnfantPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
-  const child = MOCK_CHILDREN.find(c => c.id === id)
+  const child = getChild(id)
   if (!child) notFound()
 
   const age = getAge(child.birth_date)
@@ -168,7 +129,7 @@ export default async function EnfantPage({ params }: { params: Promise<{ id: str
                 {suggested.map(m => (
                   <Link
                     key={m.id}
-                    href={`/generateur?module=${m.id}&gradeLevel=${child.grade_level}`}
+                    href={`/generateur?module=${m.id}&child=${child.id}`}
                     className="block bg-cream p-5 hover:bg-parchment transition-colors group"
                   >
                     <div className="flex items-baseline justify-between gap-3 mb-1">
@@ -192,7 +153,7 @@ export default async function EnfantPage({ params }: { params: Promise<{ id: str
           {/* Actions */}
           <AnimateOnScroll delay={150} className="flex flex-col sm:flex-row gap-4 pt-4 border-t border-stone/20">
             <Link
-              href={`/generateur?gradeLevel=${child.grade_level}`}
+              href={`/generateur?child=${child.id}`}
               className="flex-1 text-center py-4 bg-forest text-cream text-xs tracking-widest uppercase hover:bg-charcoal transition-colors"
             >
               Composer une leçon libre

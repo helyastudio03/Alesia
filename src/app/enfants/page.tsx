@@ -1,36 +1,11 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { AnimateOnScroll } from '@/components/animate-on-scroll'
+import { MOCK_CHILDREN, getAge, LEARNING_STYLE_LABELS } from '@/lib/children'
 
 const GARAMOND = { fontFamily: "'Cormorant Garamond', serif" }
 
-const mockChildren = [
-  {
-    id: '1',
-    first_name: 'Emma',
-    birth_date: '2015-03-15',
-    grade_level: 'CE2',
-    learning_style: 'Visuel',
-    interests: ['Sciences', 'Dessin', 'Nature'],
-  },
-  {
-    id: '2',
-    first_name: 'Lucas',
-    birth_date: '2012-07-22',
-    grade_level: '5ème',
-    learning_style: 'Kinesthésique',
-    interests: ['Histoire', 'Musique', 'Sport'],
-  },
-]
-
-function getAge(birthDate: string) {
-  const today = new Date()
-  const birth = new Date(birthDate)
-  let age = today.getFullYear() - birth.getFullYear()
-  const m = today.getMonth() - birth.getMonth()
-  if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) age--
-  return age
-}
+const mockChildren = MOCK_CHILDREN
 
 export default function EnfantsPage() {
   const hasChildren = mockChildren.length > 0
@@ -116,7 +91,7 @@ export default function EnfantsPage() {
                       <div>
                         <p className="text-gold tracking-[0.15em] text-[0.65rem] uppercase mb-1.5">Style</p>
                         <span className="text-charcoal/60 text-xs border border-stone/25 px-2 py-0.5">
-                          {child.learning_style}
+                          {LEARNING_STYLE_LABELS[child.learning_style] ?? child.learning_style}
                         </span>
                       </div>
                     )}
@@ -142,7 +117,7 @@ export default function EnfantsPage() {
                       Profil
                     </Link>
                     <Link
-                      href={`/generateur?gradeLevel=${child.grade_level}`}
+                      href={`/generateur?child=${child.id}`}
                       className="flex-1 text-center py-2.5 bg-forest text-cream text-xs tracking-widest uppercase hover:bg-charcoal transition-colors"
                     >
                       Composer
