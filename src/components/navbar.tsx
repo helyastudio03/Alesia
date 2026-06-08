@@ -2,19 +2,19 @@
 
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
+import { usePathname } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { signOut } from '@/app/auth/actions'
 import type { User } from '@supabase/supabase-js'
 
-const PUBLIC_LINKS = [
+// Liens toujours visibles. Tant que l'authentification n'est pas configurée,
+// l'ensemble de l'outil reste accessible — la navbar reflète le pied de page.
+const NAV_LINKS = [
   { href: '/', label: 'Accueil' },
   { href: '/methode', label: 'Méthode' },
   { href: '/programme', label: 'Programme' },
   { href: '/exemples', label: 'Exemples' },
   { href: '/faq', label: 'FAQ' },
-]
-
-const AUTH_LINKS = [
   { href: '/enfants', label: 'Enfants' },
   { href: '/lecons', label: 'Leçons' },
   { href: '/generateur', label: 'Générateur' },
@@ -23,6 +23,7 @@ const AUTH_LINKS = [
 export function Navbar() {
   const [user, setUser] = useState<User | null>(null)
   const [open, setOpen] = useState(false)
+  const pathname = usePathname()
 
   useEffect(() => {
     const supabase = createClient()
@@ -34,9 +35,9 @@ export function Navbar() {
   }, [])
 
   // Fermer le menu au changement de route.
-  useEffect(() => { setOpen(false) }, [])
+  useEffect(() => { setOpen(false) }, [pathname])
 
-  const allLinks = [...PUBLIC_LINKS, ...(user ? AUTH_LINKS : [])]
+  const allLinks = NAV_LINKS
 
   return (
     <>
@@ -61,26 +62,20 @@ export function Navbar() {
 
             {/* Liens desktop */}
             <div className="hidden lg:flex items-center gap-1">
-              {PUBLIC_LINKS.map(l => (
-                <Link
-                  key={l.href}
-                  href={l.href}
-                  style={{ color: '#1c1c1c', fontSize: '0.75rem', letterSpacing: '0.1em' }}
-                  className="px-3 py-2 uppercase hover:underline transition-all"
-                >
-                  {l.label}
-                </Link>
-              ))}
-              {user && AUTH_LINKS.map(l => (
-                <Link
-                  key={l.href}
-                  href={l.href}
-                  style={{ color: '#1c1c1c', fontSize: '0.75rem', letterSpacing: '0.1em' }}
-                  className="px-3 py-2 uppercase hover:underline transition-all"
-                >
-                  {l.label}
-                </Link>
-              ))}
+              {NAV_LINKS.map(l => {
+                const active = l.href === '/' ? pathname === '/' : pathname.startsWith(l.href)
+                return (
+                  <Link
+                    key={l.href}
+                    href={l.href}
+                    aria-current={active ? 'page' : undefined}
+                    style={{ color: active ? '#1a3a2a' : '#1c1c1c', fontSize: '0.75rem', letterSpacing: '0.1em' }}
+                    className={`px-3 py-2 uppercase transition-all ${active ? 'underline underline-offset-4 decoration-gold' : 'hover:underline'}`}
+                  >
+                    {l.label}
+                  </Link>
+                )
+              })}
               {user ? (
                 <form action={signOut} className="ml-4">
                   <button
