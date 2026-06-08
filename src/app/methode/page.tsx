@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { AnimateOnScroll } from '@/components/animate-on-scroll'
+import { Breadcrumb } from '@/components/breadcrumb'
 
 export const metadata = {
   title: 'La Méthode',
@@ -102,6 +103,13 @@ export default function MethodePage() {
           </p>
         </div>
       </section>
+
+      {/* FIL D'ARIANE */}
+      <div className="border-b border-stone/15 px-4 md:px-6">
+        <div className="max-w-5xl mx-auto py-4">
+          <Breadcrumb items={[{ label: 'La Méthode' }]} />
+        </div>
+      </div>
 
       {/* INTRODUCTION */}
       <section className="py-16 md:py-24 px-4 md:px-6">

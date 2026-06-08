@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { AnimateOnScroll } from '@/components/animate-on-scroll'
+import { Breadcrumb } from '@/components/breadcrumb'
 
 export const metadata = {
   title: 'Questions fréquentes',
@@ -78,6 +79,13 @@ export default function FAQPage() {
           <div className="w-16 h-px bg-gold mx-auto" />
         </div>
       </section>
+
+      {/* FIL D'ARIANE */}
+      <div className="border-b border-stone/15 px-4 md:px-6">
+        <div className="max-w-3xl mx-auto py-4">
+          <Breadcrumb items={[{ label: 'Questions fréquentes' }]} />
+        </div>
+      </div>
 
       {/* QUESTIONS */}
       <section className="py-12 md:py-20 px-4 md:px-6">

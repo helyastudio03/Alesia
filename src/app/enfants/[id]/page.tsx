@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { AnimateOnScroll } from '@/components/animate-on-scroll'
+import { Breadcrumb } from '@/components/breadcrumb'
 import { CURRICULUM, type Domain } from '@/lib/curriculum'
 import { getChild, getAge, LEARNING_STYLE_LABELS } from '@/lib/children'
 import { notFound } from 'next/navigation'
@@ -58,13 +59,13 @@ export default async function EnfantPage({ params }: { params: Promise<{ id: str
       <section className="py-12 md:py-16 px-4 md:px-6">
         <div className="max-w-4xl mx-auto">
 
-          <AnimateOnScroll className="mb-4">
-            <Link
-              href="/enfants"
-              className="text-xs text-stone/60 tracking-widest uppercase hover:text-charcoal transition-colors"
-            >
-              ← Retour aux profils
-            </Link>
+          <AnimateOnScroll className="mb-6">
+            <Breadcrumb
+              items={[
+                { label: 'Mes enfants', href: '/enfants' },
+                { label: child.first_name },
+              ]}
+            />
           </AnimateOnScroll>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-stone/15 mb-12">

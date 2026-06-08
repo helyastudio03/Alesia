@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { AnimateOnScroll } from '@/components/animate-on-scroll'
+import { Breadcrumb } from '@/components/breadcrumb'
 import { MOCK_CHILDREN, getAge, LEARNING_STYLE_LABELS } from '@/lib/children'
 
 const GARAMOND = { fontFamily: "'Cormorant Garamond', serif" }
@@ -33,6 +34,13 @@ export default function EnfantsPage() {
           <div className="w-12 h-px bg-gold mx-auto mt-4" />
         </div>
       </section>
+
+      {/* FIL D'ARIANE */}
+      <div className="border-b border-stone/15 px-6">
+        <div className="max-w-5xl mx-auto py-4">
+          <Breadcrumb items={[{ label: 'Mes enfants' }]} />
+        </div>
+      </div>
 
       <section className="py-16 px-6">
         <div className="max-w-5xl mx-auto">

@@ -10,6 +10,7 @@ import { Input } from '@/components/ui/input'
 import { parsePartialJSON } from '@/lib/partial-json'
 import { DOMAINS, LEVELS, modulesForLevel, CURRICULUM, type Module } from '@/lib/curriculum'
 import { getChild, type Child } from '@/lib/children'
+import { Breadcrumb } from '@/components/breadcrumb'
 
 const SUBJECTS = [
   'Mathématiques', 'Français', 'Histoire', 'Géographie',
@@ -215,6 +216,23 @@ function GenerateurInner() {
           </p>
         </div>
       </section>
+
+      {/* FIL D'ARIANE */}
+      <div className="border-b border-stone/15 px-4 md:px-6">
+        <div className="max-w-7xl mx-auto py-4">
+          <Breadcrumb
+            items={
+              activeChild
+                ? [
+                    { label: 'Mes enfants', href: '/enfants' },
+                    { label: activeChild.first_name, href: `/enfants/${activeChild.id}` },
+                    { label: 'Composer' },
+                  ]
+                : [{ label: 'Composer une leçon' }]
+            }
+          />
+        </div>
+      </div>
 
       {/* Bandeau contextuel — composition pour un enfant précis */}
       {activeChild && (

@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { AnimateOnScroll } from '@/components/animate-on-scroll'
+import { Breadcrumb } from '@/components/breadcrumb'
 import { ExemplesGalerie } from './galerie'
 
 export const metadata = {
@@ -44,6 +45,13 @@ export default function ExemplesPage() {
           </p>
         </div>
       </section>
+
+      {/* FIL D'ARIANE */}
+      <div className="border-b border-stone/15 px-4 md:px-6">
+        <div className="max-w-5xl mx-auto py-4">
+          <Breadcrumb items={[{ label: 'Exemples' }]} />
+        </div>
+      </div>
 
       {/* INTRODUCTION */}
       <section className="py-12 md:py-20 px-4 md:px-6">

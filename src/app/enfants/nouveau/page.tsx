@@ -7,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/textarea'
 import Link from 'next/link'
 import { DOMAINS, type Domain } from '@/lib/curriculum'
+import { Breadcrumb } from '@/components/breadcrumb'
 
 const GRADE_LEVELS = [
   'CP', 'CE1', 'CE2', 'CM1', 'CM2',
@@ -63,12 +64,12 @@ export default function NouvelEnfantPage() {
       <div className="max-w-2xl mx-auto px-6 py-12">
 
         <div className="mb-10">
-          <Link
-            href="/enfants"
-            className="text-xs text-stone/60 tracking-widest uppercase hover:text-charcoal transition-colors"
-          >
-            ← Retour
-          </Link>
+          <Breadcrumb
+            items={[
+              { label: 'Mes enfants', href: '/enfants' },
+              { label: 'Nouveau profil' },
+            ]}
+          />
         </div>
 
         <div className="mb-10">

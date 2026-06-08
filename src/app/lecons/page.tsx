@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { AnimateOnScroll } from '@/components/animate-on-scroll'
+import { Breadcrumb } from '@/components/breadcrumb'
 
 export const metadata = {
   title: 'Mes leçons',
@@ -33,6 +34,13 @@ export default function LeconsPage() {
           <div className="w-16 h-px bg-gold mx-auto" />
         </div>
       </section>
+
+      {/* FIL D'ARIANE */}
+      <div className="border-b border-stone/15 px-4 md:px-6">
+        <div className="max-w-4xl mx-auto py-4">
+          <Breadcrumb items={[{ label: 'Mes leçons' }]} />
+        </div>
+      </div>
 
       {/* CONTENU */}
       <section className="py-12 md:py-20 px-4 md:px-6">
