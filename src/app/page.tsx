@@ -31,7 +31,7 @@ export default function HomePage() {
           <p className="text-gold tracking-[0.3em] text-sm uppercase mb-6 font-light">
             Instruction en Famille
           </p>
-          <h1 className="text-7xl md:text-8xl font-light text-cream mb-6" style={{fontFamily: "'Cormorant Garamond', serif", letterSpacing: '-0.02em'}}>
+          <h1 className="text-6xl md:text-8xl text-cream mb-6" style={{fontFamily: "'Cinzel Decorative', serif", fontWeight: 700, letterSpacing: '0.08em'}}>
             Alesia
           </h1>
           <div className="w-16 h-px bg-gold mx-auto mb-6" />
