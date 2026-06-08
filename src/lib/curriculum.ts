@@ -510,6 +510,153 @@ export const CURRICULUM: Module[] = [
     age: "L'âge des faits",
     levels: ['CP', 'CE1', 'CE2', 'CM1', 'CM2'],
   },
+
+  // ───────────── LE VERBE — Philosophie ─────────────
+  {
+    id: 'verbe-philo-intro-1',
+    subject: 'Philosophie',
+    title: 'Introduction à la philosophie',
+    topic: "Qu'est-ce que philosopher ? L'étonnement, le doute et la recherche du sens",
+    domain: 'Le Verbe',
+    age: 'Le raisonnement',
+    levels: ['3ème', '2nde'],
+  },
+  {
+    id: 'verbe-philo-philosophes-1',
+    subject: 'Philosophie',
+    title: 'Les grands philosophes',
+    topic: 'Socrate, Platon, Aristote, Descartes : vie, œuvre et idées maîtresses',
+    domain: 'Le Verbe',
+    age: 'Le raisonnement',
+    levels: ['3ème', '2nde', '1ère'],
+  },
+  {
+    id: 'verbe-philo-ethique-1',
+    subject: 'Philosophie',
+    title: 'Éthique et morale',
+    topic: 'Le bien, le mal, la liberté et la responsabilité : penser l\'action juste',
+    domain: 'Le Verbe',
+    age: "L'expression",
+    levels: ['1ère', 'Terminale'],
+  },
+  {
+    id: 'verbe-philo-logique-1',
+    subject: 'Philosophie',
+    title: 'Logique philosophique',
+    topic: 'Syllogismes, raisonnements valides et sophismes : l\'art d\'argumenter juste',
+    domain: 'Le Verbe',
+    age: "L'expression",
+    levels: ['1ère', 'Terminale'],
+  },
+
+  // ───────────── LE VERBE — Petits niveaux ─────────────
+  {
+    id: 'verbe-lettres-1',
+    subject: 'Français',
+    title: 'Les premières lettres',
+    topic: 'Reconnaissance et tracé des lettres de l\'alphabet, sons et associations',
+    domain: 'Le Verbe',
+    age: "L'âge des faits",
+    levels: ['CP', 'CE1'],
+  },
+  {
+    id: 'verbe-histoires-1',
+    subject: 'Français',
+    title: 'Premières histoires',
+    topic: 'Écouter, comprendre et raconter de courtes histoires simples',
+    domain: 'Le Verbe',
+    age: "L'âge des faits",
+    levels: ['CP', 'CE1'],
+  },
+
+  // ───────────── LE MONDE — Géographie (suite) ─────────────
+  {
+    id: 'monde-geo-mondialisation-1',
+    subject: 'Géographie',
+    title: 'La mondialisation',
+    topic: 'Échanges, flux et inégalités à l\'échelle mondiale',
+    domain: 'Le Monde',
+    age: "L'expression",
+    levels: ['3ème', '2nde', '1ère'],
+  },
+  {
+    id: 'monde-geo-geopolitique-1',
+    subject: 'Géographie',
+    title: 'Géopolitique du monde contemporain',
+    topic: 'Puissances, conflits et organisations internationales au XXIe siècle',
+    domain: 'Le Monde',
+    age: "L'expression",
+    levels: ['1ère', 'Terminale'],
+  },
+  {
+    id: 'monde-geo-environnement-1',
+    subject: 'Géographie',
+    title: 'Géographie de l\'environnement',
+    topic: 'Ressources naturelles, risques et développement durable',
+    domain: 'Le Monde',
+    age: "L'expression",
+    levels: ['3ème', '2nde', '1ère', 'Terminale'],
+  },
+
+  // ───────────── LE MONDE — SVT lycée ─────────────
+  {
+    id: 'monde-svt-evolution-1',
+    subject: 'SVT',
+    title: 'L\'évolution du vivant',
+    topic: 'Sélection naturelle, Darwin et les mécanismes de l\'évolution',
+    domain: 'Le Monde',
+    age: "L'expression",
+    levels: ['2nde', '1ère', 'Terminale'],
+  },
+  {
+    id: 'monde-svt-ecologie-1',
+    subject: 'SVT',
+    title: 'Écologie et crise environnementale',
+    topic: 'Biodiversité, cycles biogéochimiques et impact humain sur les écosystèmes',
+    domain: 'Le Monde',
+    age: "L'expression",
+    levels: ['2nde', '1ère', 'Terminale'],
+  },
+
+  // ───────────── LE NOMBRE & LES FORMES — Physique-Chimie lycée ─────────────
+  {
+    id: 'nombre-mecanique-1',
+    subject: 'Physique-Chimie',
+    title: 'Mécanique et mouvement',
+    topic: 'Forces, lois de Newton, cinématique et dynamique du point',
+    domain: 'Le Nombre & les Formes',
+    age: "L'expression",
+    levels: ['2nde', '1ère', 'Terminale'],
+  },
+  {
+    id: 'nombre-optique-1',
+    subject: 'Physique-Chimie',
+    title: 'Optique géométrique',
+    topic: 'Lumière, lentilles, miroirs et formation des images',
+    domain: 'Le Nombre & les Formes',
+    age: "L'expression",
+    levels: ['2nde', '1ère', 'Terminale'],
+  },
+
+  // ───────────── LE CORPS & LA MAIN — lycée ─────────────
+  {
+    id: 'main-sport-performance-1',
+    subject: 'Éducation physique',
+    title: 'Sport et performance',
+    topic: 'Entraînement, physiologie de l\'effort et dépassement de soi',
+    domain: 'Le Corps & la Main',
+    age: "L'expression",
+    levels: ['2nde', '1ère', 'Terminale'],
+  },
+  {
+    id: 'main-dessin-technique-1',
+    subject: 'Arts plastiques',
+    title: 'Architecture et dessin technique',
+    topic: 'Plans, coupes et perspectives : représenter l\'espace bâti',
+    domain: 'Le Corps & la Main',
+    age: "L'expression",
+    levels: ['3ème', '2nde', '1ère', 'Terminale'],
+  },
 ]
 
 // Modules disponibles pour un niveau donné, regroupés par domaine.
