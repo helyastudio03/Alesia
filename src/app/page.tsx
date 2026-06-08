@@ -2,6 +2,17 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { AnimateOnScroll } from '@/components/animate-on-scroll'
 
+export const metadata = {
+  title: 'Alesia — Instruction en Famille',
+  description:
+    "Alesia est une plateforme d'instruction en famille fondée sur une vision éducative assumée : former des individus complets, transmettre des savoirs enracinés, progresser par la maîtrise réelle.",
+  openGraph: {
+    title: 'Alesia — Instruction en Famille',
+    description: "Former des individus complets. Transmettre ce qui dure. Une alternative réelle à l'école institutionnelle.",
+    images: [{ url: 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=1200&q=80', width: 1200, height: 630 }],
+  },
+}
+
 export default function HomePage() {
   return (
     <div className="bg-cream">

@@ -3,8 +3,8 @@ import Image from 'next/image'
 import { AnimateOnScroll } from '@/components/animate-on-scroll'
 
 export const metadata = {
-  title: 'Leçons — Alesia',
-  description: 'Toutes vos leçons composées avec Alesia.',
+  title: 'Mes leçons',
+  description: 'Retrouvez toutes les leçons que vous avez composées avec Alesia, classées par domaine et par enfant.',
 }
 
 const GARAMOND = { fontFamily: "'Cormorant Garamond', serif" }

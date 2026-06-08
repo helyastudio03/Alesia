@@ -4,9 +4,14 @@ import { AnimateOnScroll } from '@/components/animate-on-scroll'
 import { CURRICULUM, DOMAINS, AGES, type Domain, type Age, type Module } from '@/lib/curriculum'
 
 export const metadata = {
-  title: 'Le Programme — Alesia',
+  title: 'Le Programme',
   description:
-    "Le tronc commun d'Alesia : l'ensemble des modules de formation, classés par domaine et par âge de progression.",
+    "Le tronc commun d'Alesia : plus de 60 modules de formation classés par domaine (Verbe, Nombre, Monde, Corps) et par âge de progression (faits, raisonnement, expression). Du CP à la Terminale.",
+  openGraph: {
+    title: 'Le Programme — Alesia',
+    description: "Le tronc commun structuré : 60+ modules du CP à la Terminale, un parcours ordonné du premier mot à la pensée libre.",
+    images: [{ url: 'https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=1200&q=80', width: 1200, height: 630 }],
+  },
 }
 
 const GARAMOND = { fontFamily: "'Cormorant Garamond', serif" }

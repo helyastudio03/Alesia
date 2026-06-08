@@ -3,9 +3,14 @@ import Image from 'next/image'
 import { AnimateOnScroll } from '@/components/animate-on-scroll'
 
 export const metadata = {
-  title: 'La Méthode — Alesia',
+  title: 'La Méthode',
   description:
-    "Le curriculum et la progression pédagogique d'Alesia : quatre domaines de formation, trois âges de maîtrise, une vision cohérente de l'éducation.",
+    "Le curriculum Alesia : quatre domaines de formation (le Verbe, le Nombre, le Monde, le Corps), trois âges de maîtrise, une progression par la compétence réelle et non par le calendrier.",
+  openGraph: {
+    title: 'La Méthode — Alesia',
+    description: "Quatre domaines. Trois âges. Une formation cohérente de l'individu complet.",
+    images: [{ url: 'https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=1200&q=80', width: 1200, height: 630 }],
+  },
 }
 
 const DOMAINES = [

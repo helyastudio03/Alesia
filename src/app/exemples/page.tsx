@@ -4,9 +4,14 @@ import { AnimateOnScroll } from '@/components/animate-on-scroll'
 import { ExemplesGalerie } from './galerie'
 
 export const metadata = {
-  title: 'Exemples de leçons — Alesia',
+  title: 'Exemples de leçons',
   description:
-    "Quatre leçons d'exemple, une par domaine du curriculum Alesia, pour découvrir la densité et la cohérence des leçons générées.",
+    "Quatre leçons d'exemple, une par domaine du curriculum Alesia : une fable latine, une démonstration d'Euclide, l'observation d'un chêne, la fabrication d'un tabouret. La méthode en pratique.",
+  openGraph: {
+    title: 'Exemples de leçons — Alesia',
+    description: "Quatre leçons réelles, une par domaine. Ce que produit la méthode, sans retouche.",
+    images: [{ url: 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=1200&q=80', width: 1200, height: 630 }],
+  },
 }
 
 export default function ExemplesPage() {

@@ -3,9 +3,14 @@ import Link from 'next/link'
 import { AnimateOnScroll } from '@/components/animate-on-scroll'
 
 export const metadata = {
-  title: 'Questions fréquentes — Alesia',
+  title: 'Questions fréquentes',
   description:
-    "Légalité, organisation, progression, rôle de l'outil — les questions que se posent les parents qui envisagent l'instruction en famille.",
+    "Légalité de l'IEF en France, organisation quotidienne, évaluation de la progression, socialisation, examens officiels — les réponses aux questions des parents qui envisagent l'instruction en famille.",
+  openGraph: {
+    title: 'FAQ — Alesia',
+    description: "Tout ce que vous voulez savoir sur l'instruction en famille avant de vous lancer.",
+    images: [{ url: 'https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=1200&q=80', width: 1200, height: 630 }],
+  },
 }
 
 const GARAMOND = { fontFamily: "'Cormorant Garamond', serif" }
