@@ -1,28 +1,25 @@
 import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Plus, User } from 'lucide-react'
+import Image from 'next/image'
+import { AnimateOnScroll } from '@/components/animate-on-scroll'
+
+const GARAMOND = { fontFamily: "'Cormorant Garamond', serif" }
 
 const mockChildren = [
   {
     id: '1',
     first_name: 'Emma',
-    last_name: 'Dupont',
     birth_date: '2015-03-15',
     grade_level: 'CE2',
     learning_style: 'Visuel',
     interests: ['Sciences', 'Dessin', 'Nature'],
-    subjects: ['Mathématiques', 'Français', 'Sciences'],
   },
   {
     id: '2',
     first_name: 'Lucas',
-    last_name: 'Dupont',
     birth_date: '2012-07-22',
     grade_level: '5ème',
     learning_style: 'Kinesthésique',
     interests: ['Histoire', 'Musique', 'Sport'],
-    subjects: ['Histoire-Géo', 'Mathématiques', 'Français'],
   },
 ]
 
@@ -36,126 +33,127 @@ function getAge(birthDate: string) {
 }
 
 export default function EnfantsPage() {
+  const hasChildren = mockChildren.length > 0
+
   return (
-    <div className="max-w-7xl mx-auto px-4 py-12">
-      <div className="flex items-center justify-between mb-12" style={{ borderBottom: '1px solid #8b7355', paddingBottom: '1.5rem' }}>
-        <div>
+    <div className="bg-cream min-h-screen">
+      {/* HERO */}
+      <section className="relative h-[40vh] min-h-[280px] flex items-center justify-center overflow-hidden">
+        <Image
+          src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=1600&q=80"
+          alt="Enfants qui apprennent"
+          fill
+          className="object-cover object-center grayscale"
+          priority
+        />
+        <div className="absolute inset-0 bg-forest/82" />
+        <div className="relative z-10 text-center px-6">
+          <p className="text-gold tracking-[0.3em] text-sm uppercase mb-4 font-light">Les profils</p>
           <h1
-            style={{ fontFamily: "'Playfair Display', Georgia, serif", color: '#1a3a2a', fontSize: '2rem' }}
-            className="mb-1"
+            className="text-5xl font-light text-cream"
+            style={{ ...GARAMOND, letterSpacing: '-0.01em' }}
           >
             Mes enfants
           </h1>
-          <p style={{ color: '#8b7355', fontSize: '0.875rem' }}>Gérez les profils de vos enfants</p>
+          <div className="w-12 h-px bg-gold mx-auto mt-4" />
         </div>
-        <Link
-          href="/enfants/nouveau"
-          style={{ color: '#1a3a2a', border: '1px solid #1a3a2a', fontSize: '0.75rem', letterSpacing: '0.1em' }}
-          className="flex items-center gap-2 px-5 py-2 uppercase hover:bg-green-50 transition-colors"
-        >
-          <Plus className="h-3.5 w-3.5" />
-          Ajouter un enfant
-        </Link>
-      </div>
+      </section>
 
-      {mockChildren.length === 0 ? (
-        <div className="text-center py-20">
-          <User className="h-10 w-10 mx-auto mb-6" style={{ color: '#8b7355' }} />
-          <h3
-            style={{ fontFamily: "'Playfair Display', Georgia, serif", color: '#1a3a2a', fontSize: '1.25rem' }}
-            className="mb-3"
-          >
-            Aucun enfant
-          </h3>
-          <p style={{ color: '#8b7355' }} className="mb-8 text-sm">Commencez par créer le profil de votre premier enfant.</p>
-          <Link
-            href="/enfants/nouveau"
-            style={{ color: '#1a3a2a', border: '1px solid #1a3a2a', fontSize: '0.75rem', letterSpacing: '0.1em' }}
-            className="inline-flex items-center gap-2 px-5 py-2 uppercase hover:bg-green-50 transition-colors"
-          >
-            <Plus className="h-3.5 w-3.5" />
-            Créer un profil
-          </Link>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {mockChildren.map((child) => (
-            <div
-              key={child.id}
-              style={{ backgroundColor: '#faf7f2', border: '1px solid #d5cfc5', borderTop: '2px solid #b8962e' }}
-              className="p-6"
+      <section className="py-16 px-6">
+        <div className="max-w-5xl mx-auto">
+
+          <AnimateOnScroll className="flex items-center justify-between mb-12">
+            <p className="text-charcoal/50 text-sm italic" style={GARAMOND}>
+              {hasChildren ? `${mockChildren.length} profil${mockChildren.length > 1 ? 's' : ''}` : 'Aucun profil'}
+            </p>
+            <Link
+              href="/enfants/nouveau"
+              className="px-6 py-3 border border-charcoal text-charcoal text-xs tracking-widest uppercase hover:bg-charcoal hover:text-cream transition-all duration-300"
             >
-              <div className="flex items-center gap-4 mb-6">
-                <div
-                  style={{ backgroundColor: '#f5f0e8', border: '1px solid #8b7355', color: '#1a3a2a', fontFamily: "'Playfair Display', Georgia, serif", fontSize: '1.25rem', fontWeight: 600 }}
-                  className="w-12 h-12 flex items-center justify-center flex-shrink-0"
-                >
-                  {child.first_name[0]}
-                </div>
-                <div>
-                  <h2
-                    style={{ fontFamily: "'Playfair Display', Georgia, serif", color: '#1c1c1c', fontSize: '1.125rem' }}
-                  >
-                    {child.first_name} {child.last_name}
-                  </h2>
-                  <p style={{ color: '#8b7355', fontSize: '0.8rem' }}>{getAge(child.birth_date)} ans · {child.grade_level}</p>
-                </div>
-              </div>
+              + Nouveau profil
+            </Link>
+          </AnimateOnScroll>
 
-              <div className="space-y-4">
-                {child.learning_style && (
-                  <div>
-                    <p style={{ color: '#8b7355', fontSize: '0.7rem', letterSpacing: '0.1em' }} className="uppercase mb-1">Style</p>
-                    <span style={{ color: '#1c1c1c', border: '1px solid #d5cfc5', fontSize: '0.8rem' }} className="inline-block px-2 py-0.5">
-                      {child.learning_style}
-                    </span>
-                  </div>
-                )}
-                {child.interests && child.interests.length > 0 && (
-                  <div>
-                    <p style={{ color: '#8b7355', fontSize: '0.7rem', letterSpacing: '0.1em' }} className="uppercase mb-1">Intérêts</p>
-                    <div className="flex flex-wrap gap-1">
-                      {child.interests.map((interest) => (
-                        <span key={interest} style={{ color: '#1c1c1c', border: '1px solid #d5cfc5', fontSize: '0.75rem' }} className="inline-block px-2 py-0.5">
-                          {interest}
-                        </span>
-                      ))}
+          {!hasChildren ? (
+            <AnimateOnScroll delay={100} className="flex flex-col items-center justify-center py-24 border border-dashed border-stone/30">
+              <div className="text-5xl text-gold/25 mb-6" style={GARAMOND}>✦</div>
+              <h3 className="text-xl font-light text-charcoal mb-3" style={GARAMOND}>
+                Aucun profil créé
+              </h3>
+              <p className="text-charcoal/45 text-sm text-center max-w-xs leading-relaxed mb-8">
+                Le profil de l&apos;enfant personnalise les leçons composées. Commencez par en créer un.
+              </p>
+              <Link
+                href="/enfants/nouveau"
+                className="px-8 py-3 border border-charcoal text-charcoal text-xs tracking-widest uppercase hover:bg-charcoal hover:text-cream transition-all duration-300"
+              >
+                Créer un profil
+              </Link>
+            </AnimateOnScroll>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-stone/20">
+              {mockChildren.map((child, i) => (
+                <AnimateOnScroll key={child.id} delay={i * 80} className="bg-cream p-8">
+                  <div className="flex items-center gap-5 mb-6">
+                    <div
+                      className="w-12 h-12 bg-parchment border border-stone/30 flex items-center justify-center flex-shrink-0 text-xl font-light text-charcoal"
+                      style={GARAMOND}
+                    >
+                      {child.first_name[0]}
+                    </div>
+                    <div>
+                      <h2 className="text-2xl font-light text-charcoal" style={GARAMOND}>
+                        {child.first_name}
+                      </h2>
+                      <p className="text-stone text-xs mt-0.5">
+                        {getAge(child.birth_date)} ans · {child.grade_level}
+                      </p>
                     </div>
                   </div>
-                )}
-                {child.subjects && child.subjects.length > 0 && (
-                  <div>
-                    <p style={{ color: '#8b7355', fontSize: '0.7rem', letterSpacing: '0.1em' }} className="uppercase mb-1">Matières</p>
-                    <div className="flex flex-wrap gap-1">
-                      {child.subjects.map((subject) => (
-                        <span key={subject} style={{ backgroundColor: '#1a3a2a', color: '#f5f0e8', fontSize: '0.75rem' }} className="inline-block px-2 py-0.5">
-                          {subject}
+
+                  <div className="space-y-4 mb-6">
+                    {child.learning_style && (
+                      <div>
+                        <p className="text-gold tracking-[0.15em] text-[0.65rem] uppercase mb-1.5">Style</p>
+                        <span className="text-charcoal/60 text-xs border border-stone/25 px-2 py-0.5">
+                          {child.learning_style}
                         </span>
-                      ))}
-                    </div>
+                      </div>
+                    )}
+                    {child.interests.length > 0 && (
+                      <div>
+                        <p className="text-gold tracking-[0.15em] text-[0.65rem] uppercase mb-1.5">Intérêts</p>
+                        <div className="flex flex-wrap gap-1.5">
+                          {child.interests.map(interest => (
+                            <span key={interest} className="text-charcoal/55 text-xs border border-stone/25 px-2 py-0.5">
+                              {interest}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
-                )}
-                <div className="flex gap-3 pt-4" style={{ borderTop: '1px solid #e8e0d0' }}>
-                  <Link
-                    href={`/enfants/${child.id}`}
-                    style={{ color: '#1a3a2a', border: '1px solid #1a3a2a', fontSize: '0.75rem', letterSpacing: '0.05em' }}
-                    className="flex-1 text-center py-2 uppercase hover:bg-green-50 transition-colors"
-                  >
-                    Profil
-                  </Link>
-                  <Link
-                    href={`/generateur?enfant=${child.id}`}
-                    style={{ backgroundColor: '#1a3a2a', color: '#f5f0e8', fontSize: '0.75rem', letterSpacing: '0.05em' }}
-                    className="flex-1 text-center py-2 uppercase hover:opacity-90 transition-opacity"
-                  >
-                    Leçon
-                  </Link>
-                </div>
-              </div>
+
+                  <div className="flex gap-3 pt-4 border-t border-stone/15">
+                    <Link
+                      href={`/enfants/${child.id}`}
+                      className="flex-1 text-center py-2.5 border border-stone/35 text-charcoal/60 text-xs tracking-widest uppercase hover:border-charcoal hover:text-charcoal transition-all"
+                    >
+                      Profil
+                    </Link>
+                    <Link
+                      href={`/generateur?gradeLevel=${child.grade_level}`}
+                      className="flex-1 text-center py-2.5 bg-forest text-cream text-xs tracking-widest uppercase hover:bg-charcoal transition-colors"
+                    >
+                      Composer
+                    </Link>
+                  </div>
+                </AnimateOnScroll>
+              ))}
             </div>
-          ))}
+          )}
         </div>
-      )}
+      </section>
     </div>
   )
 }
