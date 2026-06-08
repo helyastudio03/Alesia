@@ -132,7 +132,7 @@ export function ExemplesGalerie() {
             <AnimateOnScroll key={ex.title} delay={i * 60} className="bg-cream">
               <button
                 onClick={() => setOuvert(isOpen ? null : i)}
-                className="w-full text-left p-8 md:p-10 flex items-start gap-6 hover:bg-parchment/40 transition-colors"
+                className="w-full text-left p-5 md:p-10 flex items-start gap-4 md:gap-6 hover:bg-parchment/40 transition-colors"
               >
                 <div
                   className="text-4xl text-gold/40 flex-shrink-0 w-12"
@@ -164,7 +164,7 @@ export function ExemplesGalerie() {
               </button>
 
               {isOpen && (
-                <div className="px-8 md:px-10 pb-12 md:pl-28 space-y-8 animate-fade-in-up">
+                <div className="px-5 md:px-10 pb-10 md:pl-28 space-y-8 animate-fade-in-up">
                   <Bloc titre="Objectifs">
                     <ul className="space-y-2">
                       {ex.objectives.map((o) => (

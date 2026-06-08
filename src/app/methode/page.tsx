@@ -99,7 +99,7 @@ export default function MethodePage() {
       </section>
 
       {/* INTRODUCTION */}
-      <section className="py-24 px-6">
+      <section className="py-16 md:py-24 px-4 md:px-6">
         <AnimateOnScroll className="max-w-3xl mx-auto text-center">
           <p className="text-gold tracking-[0.25em] text-xs uppercase mb-6">Le principe</p>
           <h2
@@ -120,7 +120,7 @@ export default function MethodePage() {
       </section>
 
       {/* LES QUATRE DOMAINES */}
-      <section className="py-24 px-6 bg-parchment">
+      <section className="py-16 md:py-24 px-4 md:px-6 bg-parchment">
         <div className="max-w-6xl mx-auto">
           <AnimateOnScroll className="text-center mb-16">
             <p className="text-gold tracking-[0.25em] text-xs uppercase mb-4">Les quatre domaines</p>
@@ -178,7 +178,7 @@ export default function MethodePage() {
       </section>
 
       {/* LES TROIS ÂGES */}
-      <section className="py-24 px-6">
+      <section className="py-16 md:py-24 px-4 md:px-6">
         <div className="max-w-4xl mx-auto">
           <AnimateOnScroll className="text-center mb-16">
             <p className="text-gold tracking-[0.25em] text-xs uppercase mb-4">La progression</p>
@@ -254,7 +254,7 @@ export default function MethodePage() {
       </section>
 
       {/* L'OUTIL AU SERVICE DE LA MÉTHODE */}
-      <section className="py-24 px-6 bg-parchment">
+      <section className="py-16 md:py-24 px-4 md:px-6 bg-parchment">
         <div className="max-w-3xl mx-auto">
           <AnimateOnScroll className="text-center mb-12">
             <p className="text-gold tracking-[0.25em] text-xs uppercase mb-4">L&apos;outil</p>
@@ -281,7 +281,7 @@ export default function MethodePage() {
       </section>
 
       {/* CTA */}
-      <section className="py-24 px-6 bg-forest text-center">
+      <section className="py-16 md:py-24 px-4 md:px-6 bg-forest text-center">
         <AnimateOnScroll className="max-w-2xl mx-auto">
           <h2
             className="text-4xl md:text-5xl font-light text-cream mb-6"

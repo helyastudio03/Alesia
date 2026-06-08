@@ -35,7 +35,7 @@ export default function LeconsPage() {
       </section>
 
       {/* CONTENU */}
-      <section className="py-20 px-6">
+      <section className="py-12 md:py-20 px-4 md:px-6">
         <div className="max-w-4xl mx-auto">
           <AnimateOnScroll className="flex items-center justify-between mb-12">
             <p className="text-charcoal/50 text-sm italic" style={GARAMOND}>

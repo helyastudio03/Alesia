@@ -41,7 +41,7 @@ export default function ExemplesPage() {
       </section>
 
       {/* INTRODUCTION */}
-      <section className="py-20 px-6">
+      <section className="py-12 md:py-20 px-4 md:px-6">
         <AnimateOnScroll className="max-w-2xl mx-auto text-center">
           <p className="text-charcoal/70 leading-relaxed text-lg">
             Voici quatre leçons réelles, une par domaine du curriculum — rigoureuses, enracinées, et
@@ -55,7 +55,7 @@ export default function ExemplesPage() {
       <ExemplesGalerie />
 
       {/* CTA */}
-      <section className="py-24 px-6 bg-forest text-center">
+      <section className="py-16 md:py-24 px-4 md:px-6 bg-forest text-center">
         <AnimateOnScroll className="max-w-2xl mx-auto">
           <h2
             className="text-4xl md:text-5xl font-light text-cream mb-6"

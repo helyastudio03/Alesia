@@ -55,7 +55,7 @@ export default function ProgrammePage() {
       </section>
 
       {/* INTRODUCTION */}
-      <section className="py-20 px-6">
+      <section className="py-12 md:py-20 px-4 md:px-6">
         <AnimateOnScroll className="max-w-2xl mx-auto text-center">
           <p className="text-charcoal/70 leading-relaxed text-lg">
             Voici l&apos;ensemble du tronc commun, classé par domaine puis par âge de progression.
@@ -72,7 +72,7 @@ export default function ProgrammePage() {
         return (
           <section
             key={domain}
-            className={`py-20 px-6 ${di % 2 === 1 ? 'bg-parchment' : ''}`}
+            className={`py-12 md:py-20 px-4 md:px-6 ${di % 2 === 1 ? 'bg-parchment' : ''}`}
           >
             <div className="max-w-5xl mx-auto">
               <AnimateOnScroll className="flex items-baseline gap-5 mb-12">
@@ -94,7 +94,7 @@ export default function ProgrammePage() {
                           <Link
                             key={m.id}
                             href={`/generateur?module=${m.id}`}
-                            className="block bg-cream p-5 hover:bg-parchment transition-colors group"
+                            className="block bg-cream p-4 md:p-5 hover:bg-parchment transition-colors group"
                           >
                             <div className="flex items-baseline justify-between gap-3 mb-1">
                               <h3 className="text-xl font-light text-charcoal group-hover:text-forest transition-colors" style={GARAMOND}>

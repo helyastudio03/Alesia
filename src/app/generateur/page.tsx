@@ -199,8 +199,8 @@ function GenerateurInner() {
       </section>
 
       {/* FORMULAIRE + RÉSULTAT */}
-      <section className="py-16 px-6">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-5 gap-12">
+      <section className="py-10 md:py-16 px-4 md:px-6">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12">
 
           {/* — Colonne formulaire */}
           <div className="lg:col-span-2 space-y-8">
@@ -427,7 +427,7 @@ function GenerateurInner() {
           {/* — Colonne résultat */}
           <div className="lg:col-span-3">
             {!lesson && !loading && (
-              <div className="h-full min-h-[400px] flex flex-col items-center justify-center border border-dashed border-stone/30 p-12">
+              <div className="h-full min-h-[240px] lg:min-h-[400px] flex flex-col items-center justify-center border border-dashed border-stone/30 p-8 md:p-12">
                 <div className="text-5xl text-gold/30 mb-6" style={GARAMOND}>✦</div>
                 <p className="text-charcoal/40 text-sm tracking-widest uppercase text-center">
                   La leçon apparaîtra ici

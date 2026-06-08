@@ -75,7 +75,7 @@ export default function FAQPage() {
       </section>
 
       {/* QUESTIONS */}
-      <section className="py-20 px-6">
+      <section className="py-12 md:py-20 px-4 md:px-6">
         <div className="max-w-3xl mx-auto divide-y divide-stone/20">
           {FAQ.map((item, i) => (
             <AnimateOnScroll key={i} delay={i * 40} className="py-10">
@@ -92,7 +92,7 @@ export default function FAQPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-24 px-6 bg-parchment text-center">
+      <section className="py-16 md:py-24 px-4 md:px-6 bg-parchment text-center">
         <AnimateOnScroll className="max-w-2xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-light text-charcoal mb-6" style={GARAMOND}>
             Une question sans réponse ?
