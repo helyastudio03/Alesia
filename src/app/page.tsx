@@ -104,6 +104,12 @@ export default function HomePage() {
                 Mathématiques, philosophie, latin, sciences naturelles, savoir-faire manuels, éducation physique — des disciplines choisies pour leur densité réelle, non pour leur utilité immédiate. La progression suit le mérite, pas le calendrier.
               </p>
             </div>
+            <Link
+              href="/manifeste"
+              className="inline-block text-xs text-forest tracking-widest uppercase underline underline-offset-4 decoration-gold hover:text-charcoal transition-colors"
+            >
+              Lire le manifeste →
+            </Link>
           </AnimateOnScroll>
         </div>
       </section>
@@ -298,6 +304,7 @@ export default function HomePage() {
             <nav className="flex flex-wrap gap-x-8 gap-y-2">
               {[
                 { href: '/', label: 'Accueil' },
+                { href: '/manifeste', label: 'Manifeste' },
                 { href: '/methode', label: 'Méthode' },
                 { href: '/programme', label: 'Programme' },
                 { href: '/exemples', label: 'Exemples' },

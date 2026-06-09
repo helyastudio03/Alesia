@@ -11,6 +11,7 @@ import type { User } from '@supabase/supabase-js'
 // l'ensemble de l'outil reste accessible — la navbar reflète le pied de page.
 const NAV_LINKS = [
   { href: '/', label: 'Accueil' },
+  { href: '/manifeste', label: 'Manifeste' },
   { href: '/methode', label: 'Méthode' },
   { href: '/programme', label: 'Programme' },
   { href: '/exemples', label: 'Exemples' },
