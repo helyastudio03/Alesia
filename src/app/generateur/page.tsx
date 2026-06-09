@@ -26,13 +26,27 @@ const GRADE_LEVELS = [
 
 const DURATIONS = ['30', '45', '60', '90', '120']
 
+type LessonSource = {
+  author: string
+  title: string
+  excerpt?: string
+}
+
+type LessonPhase = {
+  title: string
+  duration_minutes: number
+  content: string
+}
+
 type LessonResult = {
   title: string
   domain?: string
   age?: string
+  prerequisites: string[]
+  sources: LessonSource[]
   objectives: string[]
   introduction: string
-  content: string
+  phases: LessonPhase[]
   activities: string[]
   materials: string[]
   assessment: string
@@ -65,6 +79,7 @@ function GenerateurInner() {
     additionalContext: '',
     domainHint: '',
     ageHint: '',
+    childNotes: '',
   })
   const [mode, setMode] = useState<'programme' | 'libre'>('programme')
   const [selectedModuleId, setSelectedModuleId] = useState<string | null>(null)
@@ -120,13 +135,31 @@ function GenerateurInner() {
     if (lesson.title) lines.push(`# ${lesson.title}`)
     if (lesson.domain || lesson.age) lines.push(`${lesson.domain ?? ''} · ${lesson.age ?? ''}`.trim())
     lines.push('')
+    if (lesson.prerequisites?.length) {
+      lines.push('## Prérequis')
+      lesson.prerequisites.forEach(p => lines.push(`- ${p}`))
+      lines.push('')
+    }
+    if (lesson.sources?.length) {
+      lines.push('## Sources')
+      lesson.sources.forEach(s => {
+        lines.push(`- ${s.author}, *${s.title}*${s.excerpt ? ` : « ${s.excerpt} »` : ''}`)
+      })
+      lines.push('')
+    }
     if (lesson.objectives?.length) {
       lines.push('## Objectifs')
       lesson.objectives.forEach(o => lines.push(`- ${o}`))
       lines.push('')
     }
     if (lesson.introduction) lines.push(`## Introduction\n${lesson.introduction}\n`)
-    if (lesson.content) lines.push(`## Contenu\n${lesson.content}\n`)
+    if (lesson.phases?.length) {
+      lines.push('## Déroulé')
+      lesson.phases.forEach(p => {
+        lines.push(`\n### ${p.title} (${p.duration_minutes} min)\n${p.content}`)
+      })
+      lines.push('')
+    }
     if (lesson.activities?.length) {
       lines.push('## Activités')
       lesson.activities.forEach((a, i) => lines.push(`${i + 1}. ${a}`))
@@ -600,6 +633,38 @@ function GenerateurInner() {
                 {/* Corps de la leçon */}
                 <div className="divide-y divide-stone/15">
 
+                  {lesson.prerequisites && lesson.prerequisites.length > 0 && (
+                    <Bloc titre="Prérequis">
+                      <ul className="space-y-2">
+                        {lesson.prerequisites.map((p, i) => (
+                          <li key={i} className="flex items-start gap-3 text-charcoal/60 text-sm leading-relaxed">
+                            <span className="text-stone/50 mt-1 text-xs flex-shrink-0">→</span>
+                            {p}
+                          </li>
+                        ))}
+                      </ul>
+                    </Bloc>
+                  )}
+
+                  {lesson.sources && lesson.sources.length > 0 && (
+                    <Bloc titre="Sources &amp; textes">
+                      <div className="space-y-4">
+                        {lesson.sources.map((s, i) => (
+                          <div key={i} className="border-l-2 border-gold/30 pl-4">
+                            <p className="text-charcoal text-sm font-medium" style={GARAMOND}>
+                              {s.author} — <em>{s.title}</em>
+                            </p>
+                            {s.excerpt && (
+                              <p className="text-charcoal/60 text-sm italic mt-1 leading-relaxed" style={GARAMOND}>
+                                «&nbsp;{s.excerpt}&nbsp;»
+                              </p>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    </Bloc>
+                  )}
+
                   {lesson.objectives && lesson.objectives.length > 0 && (
                     <Bloc titre="Objectifs de maîtrise">
                       <ul className="space-y-3">
@@ -621,10 +686,24 @@ function GenerateurInner() {
                     </Bloc>
                   )}
 
-                  {lesson.content && (
+                  {lesson.phases && lesson.phases.length > 0 && (
                     <Bloc titre="Déroulé de la leçon">
-                      <div className="text-charcoal/70 leading-relaxed whitespace-pre-wrap">
-                        {lesson.content}
+                      <div className="space-y-6">
+                        {lesson.phases.map((phase, i) => (
+                          <div key={i}>
+                            <div className="flex items-baseline gap-3 mb-2">
+                              <span className="text-gold/60 text-xs tracking-widest uppercase flex-shrink-0">
+                                {phase.duration_minutes} min
+                              </span>
+                              <span className="text-charcoal text-sm font-medium" style={GARAMOND}>
+                                {phase.title}
+                              </span>
+                            </div>
+                            <div className="text-charcoal/70 leading-relaxed text-sm whitespace-pre-wrap pl-14">
+                              {phase.content}
+                            </div>
+                          </div>
+                        ))}
                       </div>
                     </Bloc>
                   )}

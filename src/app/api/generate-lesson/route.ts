@@ -52,13 +52,45 @@ const LESSON_SCHEMA = {
       enum: ["L'âge des faits", 'Le raisonnement', "L'expression"],
       description: "L'âge de progression correspondant au niveau de l'enfant",
     },
+    prerequisites: {
+      type: 'array',
+      items: { type: 'string' },
+      description: "Ce que l'enfant doit maîtriser avant cette leçon (notions ou compétences préalables)",
+    },
+    sources: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          author: { type: 'string', description: 'Nom de l\'auteur ou de la source' },
+          title: { type: 'string', description: 'Titre de l\'œuvre ou du texte' },
+          excerpt: { type: 'string', description: 'Extrait court cité directement, si pertinent' },
+        },
+        required: ['author', 'title'],
+        additionalProperties: false,
+      },
+      description: "Textes originaux, auteurs classiques ou sources primaires sur lesquels la leçon s'appuie",
+    },
     objectives: {
       type: 'array',
       items: { type: 'string' },
       description: 'Objectifs de maîtrise concrets et vérifiables',
     },
     introduction: { type: 'string', description: "Introduction qui capte l'attention et donne le sens de la leçon" },
-    content: { type: 'string', description: 'Contenu détaillé, rigoureux, adapté au niveau' },
+    phases: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          title: { type: 'string', description: 'Titre de la phase (ex : Présentation, Exercice guidé, Récitation…)' },
+          duration_minutes: { type: 'number', description: 'Durée de cette phase en minutes' },
+          content: { type: 'string', description: 'Contenu détaillé de cette phase, rigoureux, adapté au niveau' },
+        },
+        required: ['title', 'duration_minutes', 'content'],
+        additionalProperties: false,
+      },
+      description: 'Séquence minutée des phases de la leçon. La somme des durées doit égaler la durée totale demandée.',
+    },
     activities: {
       type: 'array',
       items: { type: 'string' },
@@ -72,9 +104,11 @@ const LESSON_SCHEMA = {
     'title',
     'domain',
     'age',
+    'prerequisites',
+    'sources',
     'objectives',
     'introduction',
-    'content',
+    'phases',
     'activities',
     'materials',
     'assessment',
@@ -92,7 +126,7 @@ function errorResponse(code: string, status: number) {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
-    const { subject, gradeLevel, topic, duration, learningStyle, interests, additionalContext, domainHint, ageHint } = body
+    const { subject, gradeLevel, topic, duration, learningStyle, interests, additionalContext, domainHint, ageHint, childNotes } = body
 
     if (!subject || !gradeLevel || !topic) {
       return errorResponse('missing_fields', 400)
@@ -107,9 +141,10 @@ export async function POST(req: NextRequest) {
 - Matière : ${subject}
 - Niveau scolaire : ${gradeLevel}
 - Sujet / Thème : ${topic}
-- Durée : ${duration} minutes
+- Durée totale : ${duration} minutes
 ${learningStyle ? `- Style d'apprentissage : ${learningStyle}` : ''}
 ${interests ? `- Centres d'intérêt de l'enfant : ${interests}` : ''}
+${childNotes ? `- Notes sur l'enfant (difficultés, forces) : ${childNotes}` : ''}
 ${additionalContext ? `- Contexte supplémentaire : ${additionalContext}` : ''}
 ${domainHint ? `- Domaine du curriculum (imposé) : ${domainHint}` : ''}
 ${ageHint ? `- Âge de progression (imposé) : ${ageHint}` : ''}
@@ -117,11 +152,16 @@ ${ageHint ? `- Âge de progression (imposé) : ${ageHint}` : ''}
 ${domainHint || ageHint
   ? `Cette leçon appartient au tronc commun structuré : respecte impérativement le domaine et l'âge indiqués, et veille à la cohérence de l'exigence avec le niveau scolaire.`
   : `Rattache la leçon au bon domaine du curriculum et au bon âge de progression. Si le sujet demandé semble incohérent avec le niveau scolaire, adapte-le avec discernement pour rester pédagogiquement juste.`}
-${interests ? `Intègre les centres d'intérêt de l'enfant (${interests}) dans les exemples et activités.` : ''}`
+${interests ? `Intègre les centres d'intérêt de l'enfant (${interests}) dans les exemples et activités.` : ''}
+${childNotes ? `Tiens compte des notes sur l'enfant pour adapter la difficulté, le rythme et les activités.` : ''}
+
+Pour le champ "phases" : décompose la leçon en séquences nommées et minutées (ex : Introduction / Apport de connaissances / Exercice guidé / Pratique autonome / Récitation ou clôture). La somme des durées doit être exactement ${duration} minutes. Chaque phase doit avoir un contenu détaillé et rigoureux.
+
+Pour le champ "sources" : cite les textes originaux, auteurs classiques ou sources primaires sur lesquels la leçon s'appuie. Si un extrait est pertinent, inclus-le directement.`
 
     const anthropicStream = await client.messages.create({
       model: 'claude-opus-4-8',
-      max_tokens: 4096,
+      max_tokens: 8192,
       system: SYSTEM_PROMPT,
       messages: [{ role: 'user', content: userPrompt }],
       stream: true,
